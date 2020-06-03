@@ -43,9 +43,8 @@ public class AdaptationsEntity {
     @Column(name = "Country", nullable = true, length = 800)
     private String country;
 
-
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BookID")
     private BookEntity bookForAdaptation;
 

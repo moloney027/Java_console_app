@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="LibrarySystem@127.0.0.1" uuid="7c13cd0d-62c4-4dc1-9a3d-c2beb008f6bc">
+      <driver-ref>sqlserver.jtds</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>net.sourceforge.jtds.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:jtds:sqlserver://127.0.0.1:1433/LibrarySystem;instance=MSSQLSERVER</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="hibernate.cfg.xml/Hibernate" uuid="b4dcf1c5-4a59-47f5-b308-df7d7eb57812">
+      <driver-ref>sqlserver.jtds</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate
+
+C:/Users/Nataliya/IdeaProjects/LibrarySystem/src/main/java/hibernate.cfg.xml</remarks>
+      <jdbc-driver>net.sourceforge.jtds.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:jtds:sqlserver://127.0.0.1:1433/LibrarySystem;instance=MSSQLSERVER</jdbc-url>
+    </data-source>
+  </component>
+</project>

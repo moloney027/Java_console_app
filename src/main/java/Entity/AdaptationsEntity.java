@@ -1,7 +1,7 @@
 package Entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Objects;
-
 
 @JsonAutoDetect
 @Entity
@@ -43,8 +42,7 @@ public class AdaptationsEntity {
     @Column(name = "Country", nullable = true, length = 800)
     private String country;
 
-
-    @JsonIgnore
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "BookID")
     private BookEntity bookForAdaptation;
@@ -54,7 +52,6 @@ public class AdaptationsEntity {
         return id;
     }
 
-
     public void setId(int adaptationId) {
         this.id = adaptationId;
     }
@@ -63,7 +60,6 @@ public class AdaptationsEntity {
     public String getTypeAdaptation() {
         return typeAdaptation;
     }
-
 
     public void setTypeAdaptation(String typeAdaptation) {
         this.typeAdaptation = typeAdaptation;
@@ -83,10 +79,10 @@ public class AdaptationsEntity {
         return country;
     }
 
-
     public void setCountry(String country) {
         this.country = country;
     }
+
 
     public BookEntity getBookForAdaptation() {
         return bookForAdaptation;

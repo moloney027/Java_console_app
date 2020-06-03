@@ -1,6 +1,6 @@
 package Menu;
 
-public class StartMenu extends AbstractMenu{
+public class StartMenu extends AbstractMenu {
 
     public StartMenu() {
         System.out.println("Добро пожаловать в библиотечную систему!");

@@ -1,9 +1,6 @@
 package Menu;
 
-import Entity.BookEntity;
-import Entity.FineEntity;
 import Entity.GenreEntity;
-import Service.BookIssuanceService;
 import Service.GenreService;
 
 import java.io.IOException;
@@ -12,19 +9,6 @@ import java.text.ParseException;
 public class GenreMenu extends AbstractMenu {
 
     private final GenreService genreService = new GenreService();
-
-    public GenreEntity getGenreEntity() {
-        System.out.print("Введите ID жанра, информацию о котором нужно обновить: ");
-        int idGenreUpdate = in.nextInt();
-        var genreIDUpdate = genreService.find(idGenreUpdate);
-        if (genreIDUpdate != null) {
-            System.out.println("\n" + genreIDUpdate + "\n");
-            return genreIDUpdate;
-        } else {
-            System.out.println("\nПо запросу ничего не найдено\n");
-            return null;
-        }
-    }
 
     public GenreMenu() throws IOException, ParseException {
 
@@ -191,7 +175,7 @@ public class GenreMenu extends AbstractMenu {
                     try {
                         switch (updateGenre) {
                             case "1":
-                                var genreIDUpdate = getGenreEntity();
+                                var genreIDUpdate = getUpdateEntity(genreService);
                                 if (genreIDUpdate != null) {
                                     System.out.print("Название жанра: ");
                                     genreIDUpdate.setTitle(bf.readLine());

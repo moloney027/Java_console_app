@@ -11,19 +11,6 @@ public class AuthorMenu extends AbstractMenu {
 
     private final AuthorService authorService = new AuthorService();
 
-    public AuthorEntity getAuthorEntity() {
-        System.out.print("Введите ID автора, информацию о котором нужно обновить: ");
-        int idAuthorUpdate = in.nextInt();
-        var authorIDUpdate = authorService.find(idAuthorUpdate);
-        if (authorIDUpdate != null) {
-            System.out.println("\n" + authorIDUpdate + "\n");
-            return authorIDUpdate;
-        } else {
-            System.out.println("\nПо запросу ничего не найдено\n");
-            return null;
-        }
-    }
-
     public AuthorMenu() throws ParseException, IOException {
 
         String choiceAuthor = actionSelection();
@@ -242,7 +229,7 @@ public class AuthorMenu extends AbstractMenu {
                     try {
                         switch (updateAuth) {
                             case "1":
-                                var authIDUpdate = getAuthorEntity();
+                                var authIDUpdate = getUpdateEntity(authorService);
                                 if (authIDUpdate != null) {
                                     System.out.print("ФИО автора: ");
                                     authIDUpdate.setFullName(bf.readLine());
@@ -268,7 +255,7 @@ public class AuthorMenu extends AbstractMenu {
                                 break;
 
                             case "2":
-                                authIDUpdate = getAuthorEntity();
+                                authIDUpdate = getUpdateEntity(authorService);
                                 if (authIDUpdate != null) {
                                     System.out.print("Дата рождения автора (yyyy-mm-dd): ");
                                     String dateInput = in.next();
@@ -290,7 +277,7 @@ public class AuthorMenu extends AbstractMenu {
                                 break;
 
                             case "3":
-                                authIDUpdate = getAuthorEntity();
+                                authIDUpdate = getUpdateEntity(authorService);
                                 if (authIDUpdate != null) {
                                     System.out.print("Место рождения автора: ");
                                     String place = bf.readLine();
@@ -305,7 +292,7 @@ public class AuthorMenu extends AbstractMenu {
                                 break;
 
                             case "4":
-                                authIDUpdate = getAuthorEntity();
+                                authIDUpdate = getUpdateEntity(authorService);
                                 if (authIDUpdate != null) {
                                     System.out.print("ФИО автора: ");
                                     authIDUpdate.setFullName(bf.readLine());

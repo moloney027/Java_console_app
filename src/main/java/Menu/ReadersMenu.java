@@ -10,19 +10,6 @@ public class ReadersMenu extends AbstractMenu {
 
     private final ReadersService readersService = new ReadersService();
 
-    public ReadersEntity getReaderEntity() {
-        System.out.print("Введите ID читателя, информацию о котором нужно обновить: ");
-        int idReaderUpdate = in.nextInt();
-        var readerIDUpdate = readersService.find(idReaderUpdate);
-        if (readerIDUpdate != null) {
-            System.out.println("\n" + readerIDUpdate + "\n");
-            return readerIDUpdate;
-        } else {
-            System.out.println("\nПо запросу ничего не найдено\n");
-            return null;
-        }
-    }
-
     public ReadersMenu() throws IOException, ParseException {
 
         String choiceReader = actionSelection();
@@ -221,7 +208,7 @@ public class ReadersMenu extends AbstractMenu {
                     try {
                         switch (updateReader) {
                             case "1":
-                                var authIDUpdate = getReaderEntity();
+                                var authIDUpdate = getUpdateEntity(readersService);
                                 if (authIDUpdate != null) {
                                     System.out.print("ФИО читателя: ");
                                     authIDUpdate.setFullName(bf.readLine());
@@ -251,7 +238,7 @@ public class ReadersMenu extends AbstractMenu {
                                 break;
 
                             case "2":
-                                authIDUpdate = getReaderEntity();
+                                authIDUpdate = getUpdateEntity(readersService);
                                 if (authIDUpdate != null) {
                                     System.out.print("ФИО читателя: ");
                                     authIDUpdate.setFullName(bf.readLine());
@@ -265,7 +252,7 @@ public class ReadersMenu extends AbstractMenu {
                                 break;
 
                             case "3":
-                                authIDUpdate = getReaderEntity();
+                                authIDUpdate = getUpdateEntity(readersService);
                                 if (authIDUpdate != null) {
                                     System.out.print("Возраст читателя: ");
                                     String inputAge = in.next();
@@ -287,7 +274,7 @@ public class ReadersMenu extends AbstractMenu {
                                 break;
 
                             case "4":
-                                authIDUpdate = getReaderEntity();
+                                authIDUpdate = getUpdateEntity(readersService);
                                 if (authIDUpdate != null) {
                                     System.out.print("Адрес читателя: ");
                                     authIDUpdate.setAddressReader(bf.readLine());

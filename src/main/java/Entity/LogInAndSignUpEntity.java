@@ -1,7 +1,6 @@
 package Entity;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.hibernate.annotations.Generated;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -33,19 +32,31 @@ public class LogInAndSignUpEntity {
     private String Password_;
 
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int loginId) { this.id = loginId; }
+    public void setId(int loginId) {
+        this.id = loginId;
+    }
 
 
-    public String getLogin_() { return Login_; }
+    public String getLogin_() {
+        return Login_;
+    }
 
-    public void setLogin_(String login_) { Login_ = login_; }
+    public void setLogin_(String login_) {
+        Login_ = login_;
+    }
 
 
-    public String getPassword_() { return Password_; }
+    public String getPassword_() {
+        return Password_;
+    }
 
-    public void setPassword_(String password_) { Password_ = DigestUtils.md5Hex(password_); }
+    public void setPassword_(String password_) {
+        Password_ = DigestUtils.md5Hex(password_);
+    }
 
 
     @Override

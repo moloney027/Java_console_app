@@ -2,7 +2,6 @@ package Entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +14,7 @@ import java.util.Set;
 @JsonAutoDetect
 @Entity
 @Table(name = "BookCopy", schema = "dbo", catalog = "LibrarySystem")
-public class BookCopyEntity{
+public class BookCopyEntity {
 
     public BookCopyEntity() {
     }
@@ -29,27 +28,37 @@ public class BookCopyEntity{
     @Column(name = "ID", nullable = false)
     private int id;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "BookID")
     private BookEntity bookForCopy;
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "copyForIssuance", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BookIssuanceEntity> allIssuanceForCopy;
 
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int bookCopyId) { this.id = bookCopyId; }
+    public void setId(int bookCopyId) {
+        this.id = bookCopyId;
+    }
 
 
-    public BookEntity getBookForCopy() { return bookForCopy; }
+    public BookEntity getBookForCopy() {
+        return bookForCopy;
+    }
 
-    public void setBookForCopy(BookEntity bookForCopy) { this.bookForCopy = bookForCopy; }
+    public void setBookForCopy(BookEntity bookForCopy) {
+        this.bookForCopy = bookForCopy;
+    }
 
 
-    public Set<BookIssuanceEntity> getAllIssuanceForCopy() { return allIssuanceForCopy; }
+    public Set<BookIssuanceEntity> getAllIssuanceForCopy() {
+        return allIssuanceForCopy;
+    }
 
     public void setAllIssuanceForCopy(Set<BookIssuanceEntity> allIssuanceForCopy) {
         this.allIssuanceForCopy = allIssuanceForCopy;
@@ -89,5 +98,7 @@ public class BookCopyEntity{
 
 
     @Override
-    public int hashCode() { return id; }
+    public int hashCode() {
+        return id;
+    }
 }

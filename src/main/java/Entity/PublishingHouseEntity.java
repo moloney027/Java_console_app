@@ -2,7 +2,6 @@ package Entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -39,27 +38,41 @@ public class PublishingHouseEntity {
     @Column(name = "DateOfEstablishment", nullable = true)
     private Integer dateOfEstablishment;
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "publishingHouseForBook", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BookEntity> booksForPublishingHouse;
 
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int publishingHouseId) { this.id = publishingHouseId; }
-
-
-    public String getTitle() { return title; }
-
-    public void setTitle(String title) { this.title = title; }
-
-
-    public int getDateOfEstablishment() { return dateOfEstablishment; }
-
-    public void setDateOfEstablishment(int dateOfEstablishment) { this.dateOfEstablishment = dateOfEstablishment; }
+    public void setId(int publishingHouseId) {
+        this.id = publishingHouseId;
+    }
 
 
-    public Set<BookEntity> getBooksForPublishingHouse() { return booksForPublishingHouse; }
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+
+    public int getDateOfEstablishment() {
+        return dateOfEstablishment;
+    }
+
+    public void setDateOfEstablishment(int dateOfEstablishment) {
+        this.dateOfEstablishment = dateOfEstablishment;
+    }
+
+
+    public Set<BookEntity> getBooksForPublishingHouse() {
+        return booksForPublishingHouse;
+    }
 
     public void setBooksForPublishingHouse(Set<BookEntity> booksForPublishingHouse) {
         this.booksForPublishingHouse = booksForPublishingHouse;

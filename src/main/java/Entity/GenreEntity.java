@@ -2,7 +2,6 @@ package Entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,24 +33,36 @@ public class GenreEntity {
     @Column(name = "Title", nullable = false, length = 800)
     private String title;
 
-    @JsonIgnore
+    @JsonBackReference
     @ManyToMany(mappedBy = "genresForBook")
     private Set<BookEntity> booksForGenre;
 
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int genreId) { this.id = genreId; }
+    public void setId(int genreId) {
+        this.id = genreId;
+    }
 
 
-    public String getTitle() { return title; }
+    public String getTitle() {
+        return title;
+    }
 
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
 
-    public Set<BookEntity> getBooksForGenre() { return booksForGenre; }
+    public Set<BookEntity> getBooksForGenre() {
+        return booksForGenre;
+    }
 
-    public void setBooksForGenre(Set<BookEntity> booksForGenre) { this.booksForGenre = booksForGenre; }
+    public void setBooksForGenre(Set<BookEntity> booksForGenre) {
+        this.booksForGenre = booksForGenre;
+    }
 
 
     public String toJSON() throws JsonProcessingException {

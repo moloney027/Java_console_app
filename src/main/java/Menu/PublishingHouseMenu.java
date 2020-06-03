@@ -1,9 +1,6 @@
 package Menu;
 
-import Entity.BookEntity;
-import Entity.FineEntity;
 import Entity.PublishingHouseEntity;
-import Service.BookIssuanceService;
 import Service.PublishingHouseService;
 
 import java.io.IOException;
@@ -12,19 +9,6 @@ import java.text.ParseException;
 public class PublishingHouseMenu extends AbstractMenu {
 
     private final PublishingHouseService pHService = new PublishingHouseService();
-
-    public PublishingHouseEntity getPHEntity() {
-        System.out.print("Введите ID издательства, информацию о котором нужно обновить: ");
-        int idPHUpdate = in.nextInt();
-        var pHIDUpdate = pHService.find(idPHUpdate);
-        if (pHIDUpdate != null) {
-            System.out.println("\n" + pHIDUpdate + "\n");
-            return pHIDUpdate;
-        } else {
-            System.out.println("\nПо запросу ничего не найдено\n");
-            return null;
-        }
-    }
 
     public PublishingHouseMenu() throws IOException, ParseException {
 
@@ -228,7 +212,7 @@ public class PublishingHouseMenu extends AbstractMenu {
                     try {
                         switch (updatePH) {
                             case "1":
-                                var pHIDUpdate = getPHEntity();
+                                var pHIDUpdate = getUpdateEntity(pHService);
                                 if (pHIDUpdate != null) {
 
                                     System.out.print("Название издательства: ");
@@ -256,7 +240,7 @@ public class PublishingHouseMenu extends AbstractMenu {
                                 break;
 
                             case "2":
-                                pHIDUpdate = getPHEntity();
+                                pHIDUpdate = getUpdateEntity(pHService);
                                 if (pHIDUpdate != null) {
                                     System.out.print("Название издательства: ");
                                     pHIDUpdate.setTitle(bf.readLine());
@@ -271,7 +255,7 @@ public class PublishingHouseMenu extends AbstractMenu {
                                 break;
 
                             case "3":
-                                pHIDUpdate = getPHEntity();
+                                pHIDUpdate = getUpdateEntity(pHService);
                                 if (pHIDUpdate != null) {
                                     System.out.print("Год основания издательства: ");
                                     String inputYear = in.next();

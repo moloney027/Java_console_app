@@ -2,7 +2,6 @@ package Entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -45,34 +44,54 @@ public class AuthorEntity {
     @Column(name = "PlaceOfBirth", nullable = true, length = 800)
     private String placeOfBirth;
 
-    @JsonIgnore
+    @JsonBackReference
     @ManyToMany(mappedBy = "authorsForBook")
     private Set<BookEntity> booksForAuthor;
 
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int authorId) { this.id = authorId; }
-
-
-    public String getFullName() { return fullName; }
-
-    public void setFullName(String fullName) { this.fullName = fullName; }
-
-
-    public Date getDateOfBirth() { return dateOfBirth; }
-
-    public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
+    public void setId(int authorId) {
+        this.id = authorId;
+    }
 
 
-    public String getPlaceOfBirth() { return placeOfBirth; }
+    public String getFullName() {
+        return fullName;
+    }
 
-    public void setPlaceOfBirth(String placeOfBirth) { this.placeOfBirth = placeOfBirth; }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
 
-    public Set<BookEntity> getBooksForAuthor() { return booksForAuthor; }
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
 
-    public void setBooksForAuthor(Set<BookEntity> booksForAuthor) { this.booksForAuthor = booksForAuthor; }
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+
+    public String getPlaceOfBirth() {
+        return placeOfBirth;
+    }
+
+    public void setPlaceOfBirth(String placeOfBirth) {
+        this.placeOfBirth = placeOfBirth;
+    }
+
+
+    public Set<BookEntity> getBooksForAuthor() {
+        return booksForAuthor;
+    }
+
+    public void setBooksForAuthor(Set<BookEntity> booksForAuthor) {
+        this.booksForAuthor = booksForAuthor;
+    }
 
 
     public String toJSON() throws JsonProcessingException {

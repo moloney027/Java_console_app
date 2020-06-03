@@ -11,19 +11,6 @@ public class AdaptationsMenu extends AbstractMenu {
 
     private final AdaptationsService adaptationsService = new AdaptationsService();
 
-    public AdaptationsEntity getAdaptationEntity() {
-        System.out.print("Введите ID адаптации, информацию о которой нужно обновить: ");
-        int idAdaptUpdate = in.nextInt();
-        var adaptIDUpdate = adaptationsService.find(idAdaptUpdate);
-        if (adaptIDUpdate != null) {
-            System.out.println("\n" + adaptIDUpdate + "\n");
-            return adaptIDUpdate;
-        } else {
-            System.out.println("\nПо запросу ничего не найдено\n");
-            return null;
-        }
-    }
-
     public AdaptationsMenu() throws ParseException, IOException {
 
         String choiceAdapt = actionSelection();
@@ -41,7 +28,7 @@ public class AdaptationsMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String findAdapt = in.next();
+                    String findAdapt = bf.readLine();
                     System.out.println();
 
                     boolean boolAdaptFind = true;
@@ -61,9 +48,16 @@ public class AdaptationsMenu extends AbstractMenu {
 
                             case "2":
                                 System.out.print("Введите ID адаптации: ");
-                                int idAdaptFind = in.nextInt();
-                                System.out.println();
-                                var adaptIDFind = adaptationsService.find(idAdaptFind);
+                                String idAdaptFind = bf.readLine();
+                                int idAdapt;
+                                if (tryParseInt(idAdaptFind)) {
+                                    idAdapt = Integer.parseInt(idAdaptFind);
+                                } else {
+                                    System.out.println("\n'" + idAdaptFind + "' нельзя привести к int!\n");
+                                    break;
+                                }
+                                var adaptIDFind = adaptationsService.find(idAdapt);
+
                                 if (adaptIDFind == null) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -74,9 +68,9 @@ public class AdaptationsMenu extends AbstractMenu {
 
                             case "3":
                                 System.out.print("Введите тип адаптации: ");
-                                String typeAdaptFind = in.next();
-                                System.out.println();
+                                String typeAdaptFind = bf.readLine();
                                 var adaptTypeFind = adaptationsService.findByType(typeAdaptFind);
+
                                 if (adaptTypeFind == null || adaptTypeFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -89,16 +83,16 @@ public class AdaptationsMenu extends AbstractMenu {
 
                             case "4":
                                 System.out.print("Введите год адаптации: ");
-                                String inputAdapt = in.next();
-                                System.out.println();
+                                String inputAdapt = bf.readLine();
                                 int yearAdaptFind;
                                 if (tryParseInt(inputAdapt)) {
                                     yearAdaptFind = Integer.parseInt(inputAdapt);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputAdapt + "' нельзя привести к int!\n");
                                     break;
                                 }
                                 var adaptYearFind = adaptationsService.findByYear(yearAdaptFind);
+
                                 if (adaptYearFind == null || adaptYearFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -111,7 +105,7 @@ public class AdaptationsMenu extends AbstractMenu {
 
                             case "5":
                                 System.out.print("Введите страну адаптации: ");
-                                String countryAdaptFind = in.next();
+                                String countryAdaptFind = bf.readLine();
                                 System.out.println();
                                 var adaptCountryFind = adaptationsService.findByCountry(countryAdaptFind);
                                 if (adaptCountryFind == null || adaptCountryFind.isEmpty()) {
@@ -247,6 +241,7 @@ public class AdaptationsMenu extends AbstractMenu {
                     System.out.println("2 - Обновить тип адаптации");
                     System.out.println("3 - Обновить год адаптации");
                     System.out.println("4 - Обновить страну адаптации");
+                    System.out.println("5 - Обновить связанную книгу");
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
@@ -256,7 +251,8 @@ public class AdaptationsMenu extends AbstractMenu {
                     try {
                         switch (updateAdapt) {
                             case "1":
-                                var adaptIDUpdate = getAdaptationEntity();
+                                var adaptIDUpdate = getUpdateEntity(adaptationsService);
+                                BookService bookService = new BookService();
                                 if (adaptIDUpdate != null) {
                                     System.out.print("Тип адаптации: ");
                                     adaptIDUpdate.setTypeAdaptation(in.next());
@@ -272,6 +268,20 @@ public class AdaptationsMenu extends AbstractMenu {
                                     adaptIDUpdate.setYear(year);
                                     System.out.print("Страна адаптации: ");
                                     adaptIDUpdate.setCountry(in.next());
+
+                                    System.out.print("ID связанной книги: ");
+                                    String inputBook = in.next();
+                                    System.out.println();
+                                    int idBook;
+                                    if (tryParseInt(inputBook)) {
+                                        idBook = Integer.parseInt(inputBook);
+                                    } else {
+                                        System.out.println("\nВведено неверное значение!\n");
+                                        break;
+                                    }
+                                    adaptIDUpdate.setBookForAdaptation(bookService.find(idBook));
+                                    adaptationsService.update(adaptIDUpdate);
+
                                     boolean actionAdaptUpdateAll = confirmationOfAction();
                                     if (actionAdaptUpdateAll) {
                                         adaptationsService.update(adaptIDUpdate);
@@ -282,7 +292,7 @@ public class AdaptationsMenu extends AbstractMenu {
                                 break;
 
                             case "2":
-                                adaptIDUpdate = getAdaptationEntity();
+                                adaptIDUpdate = getUpdateEntity(adaptationsService);
                                 if (adaptIDUpdate != null) {
                                     System.out.print("Тип адаптации: ");
                                     adaptIDUpdate.setTypeAdaptation(in.next());
@@ -296,7 +306,7 @@ public class AdaptationsMenu extends AbstractMenu {
                                 break;
 
                             case "3":
-                                adaptIDUpdate = getAdaptationEntity();
+                                adaptIDUpdate = getUpdateEntity(adaptationsService);
                                 if (adaptIDUpdate != null) {
                                     System.out.print("Год адаптации: ");
                                     String inputYear = in.next();
@@ -318,12 +328,36 @@ public class AdaptationsMenu extends AbstractMenu {
                                 break;
 
                             case "4":
-                                adaptIDUpdate = getAdaptationEntity();
+                                adaptIDUpdate = getUpdateEntity(adaptationsService);
                                 if (adaptIDUpdate != null) {
                                     System.out.print("Страна адаптации: ");
                                     adaptIDUpdate.setCountry(in.next());
                                     boolean actionAdaptUpdateCountry = confirmationOfAction();
                                     if (actionAdaptUpdateCountry) {
+                                        adaptationsService.update(adaptIDUpdate);
+                                    } else {
+                                        System.out.println("\nОбъект НЕ обновлен!\n");
+                                    }
+                                }
+                                break;
+
+                            case "5":
+                                bookService = new BookService();
+                                adaptIDUpdate = getUpdateEntity(adaptationsService);
+                                if (adaptIDUpdate != null) {
+                                    System.out.print("ID связанной книги: ");
+                                    String inputBook = in.next();
+                                    System.out.println();
+                                    int idBook;
+                                    if (tryParseInt(inputBook)) {
+                                        idBook = Integer.parseInt(inputBook);
+                                    } else {
+                                        System.out.println("\nВведено неверное значение!\n");
+                                        break;
+                                    }
+                                    adaptIDUpdate.setBookForAdaptation(bookService.find(idBook));
+                                    boolean actionAdaptUpdateBook = confirmationOfAction();
+                                    if (actionAdaptUpdateBook) {
                                         adaptationsService.update(adaptIDUpdate);
                                     } else {
                                         System.out.println("\nОбъект НЕ обновлен!\n");

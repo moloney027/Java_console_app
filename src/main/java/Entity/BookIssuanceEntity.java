@@ -1,14 +1,14 @@
 package Entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 @JsonAutoDetect
@@ -38,49 +38,73 @@ public class BookIssuanceEntity {
     @Column(name = "DateOfCompletion", nullable = true)
     private Date dateOfCompletion;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "BookCopyID")
     private BookCopyEntity copyForIssuance;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "LibraryCard")
     private ReadersEntity readerForIssuance;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToOne(mappedBy = "issuanceForFine")
     private FineEntity fineForIssuance;
 
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int bookIssuanceId) { this.id = bookIssuanceId; }
-
-
-    public Date getDateOfIssue() { return dateOfIssue; }
-
-    public void setDateOfIssue(Date dateOfIssue) { this.dateOfIssue = dateOfIssue; }
-
-
-    public Date getDateOfCompletion() { return dateOfCompletion; }
-
-    public void setDateOfCompletion(Date dateOfCompletion) { this.dateOfCompletion = dateOfCompletion; }
+    public void setId(int bookIssuanceId) {
+        this.id = bookIssuanceId;
+    }
 
 
-    public BookCopyEntity getCopyForIssuance() { return copyForIssuance; }
+    public Date getDateOfIssue() {
+        return dateOfIssue;
+    }
 
-    public void setCopyForIssuance(BookCopyEntity copyForIssuance) { this.copyForIssuance = copyForIssuance; }
+    public void setDateOfIssue(Date dateOfIssue) {
+        this.dateOfIssue = dateOfIssue;
+    }
 
 
-    public ReadersEntity getReaderForIssuance() { return readerForIssuance; }
+    public Date getDateOfCompletion() {
+        return dateOfCompletion;
+    }
 
-    public void setReaderForIssuance(ReadersEntity readerForIssuance) { this.readerForIssuance = readerForIssuance; }
+    public void setDateOfCompletion(Date dateOfCompletion) {
+        this.dateOfCompletion = dateOfCompletion;
+    }
 
 
-    public FineEntity getFineForIssuance() { return fineForIssuance; }
+    public BookCopyEntity getCopyForIssuance() {
+        return copyForIssuance;
+    }
 
-    public void setFineForIssuance(FineEntity fineForIssuance) { this.fineForIssuance = fineForIssuance; }
+    public void setCopyForIssuance(BookCopyEntity copyForIssuance) {
+        this.copyForIssuance = copyForIssuance;
+    }
+
+
+    public ReadersEntity getReaderForIssuance() {
+        return readerForIssuance;
+    }
+
+    public void setReaderForIssuance(ReadersEntity readerForIssuance) {
+        this.readerForIssuance = readerForIssuance;
+    }
+
+
+    public FineEntity getFineForIssuance() {
+        return fineForIssuance;
+    }
+
+    public void setFineForIssuance(FineEntity fineForIssuance) {
+        this.fineForIssuance = fineForIssuance;
+    }
 
 
     public String toJSON() throws JsonProcessingException {

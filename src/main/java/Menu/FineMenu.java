@@ -11,19 +11,6 @@ public class FineMenu extends AbstractMenu {
 
     private final FineService fineService = new FineService();
 
-    public FineEntity getFineEntity() {
-        System.out.print("Введите ID штрафа, информацию о котором нужно обновить: ");
-        int idFineUpdate = in.nextInt();
-        var fineIDUpdate = fineService.find(idFineUpdate);
-        if (fineIDUpdate != null) {
-            System.out.println("\n" + fineIDUpdate + "\n");
-            return fineIDUpdate;
-        } else {
-            System.out.println("\nПо запросу ничего не найдено\n");
-            return null;
-        }
-    }
-
     public FineMenu() throws IOException, ParseException {
 
         String choiceFine = actionSelection();
@@ -215,7 +202,7 @@ public class FineMenu extends AbstractMenu {
                         switch (updateFine) {
                             case "1":
                                 BookIssuanceService bookIssuanceService = new BookIssuanceService();
-                                var fineIDUpdate = getFineEntity();
+                                var fineIDUpdate = getUpdateEntity(fineService);
                                 if (fineIDUpdate != null) {
                                     System.out.print("Сумма штрафа: ");
                                     String inputAmount = in.next();
@@ -251,7 +238,7 @@ public class FineMenu extends AbstractMenu {
                                 break;
 
                             case "2":
-                                fineIDUpdate = getFineEntity();
+                                fineIDUpdate = getUpdateEntity(fineService);
                                 if (fineIDUpdate != null) {
                                     System.out.print("Сумма штрафа: ");
                                     String inputAmount = in.next();
@@ -274,7 +261,7 @@ public class FineMenu extends AbstractMenu {
 
                             case "3":
                                 bookIssuanceService = new BookIssuanceService();
-                                fineIDUpdate = getFineEntity();
+                                fineIDUpdate = getUpdateEntity(fineService);
                                 if (fineIDUpdate != null) {
                                     System.out.print("ID связанной выдачи: ");
                                     String inputIssue = in.next();

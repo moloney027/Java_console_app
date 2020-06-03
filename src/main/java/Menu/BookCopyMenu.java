@@ -1,30 +1,15 @@
 package Menu;
 
-import Entity.AuthorEntity;
 import Entity.BookCopyEntity;
 import Service.BookCopyService;
 import Service.BookService;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.text.ParseException;
 
 public class BookCopyMenu extends AbstractMenu {
 
     private final BookCopyService bookCopyService = new BookCopyService();
-
-    public BookCopyEntity getCopyEntity() {
-        System.out.print("Введите ID экземпляра, информацию о котором нужно обновить: ");
-        int idCopyUpdate = in.nextInt();
-        var copyIDUpdate = bookCopyService.find(idCopyUpdate);
-        if (copyIDUpdate != null) {
-            System.out.println("\n" + copyIDUpdate + "\n");
-            return copyIDUpdate;
-        } else {
-            System.out.println("\nПо запросу ничего не найдено\n");
-            return null;
-        }
-    }
 
     public BookCopyMenu() throws IOException, ParseException {
 
@@ -175,7 +160,7 @@ public class BookCopyMenu extends AbstractMenu {
 
                 case "4":
                     System.out.println("\nВыберите действие: ");
-                    System.out.println("1 - Обновить поле, связанное с книгой");
+                    System.out.println("1 - Обновить связанную книгу");
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
@@ -186,7 +171,7 @@ public class BookCopyMenu extends AbstractMenu {
                         switch (updateAuth) {
                             case "1":
                                 BookService bookService = new BookService();
-                                var copyIDUpdate = getCopyEntity();
+                                var copyIDUpdate = getUpdateEntity(bookCopyService);
                                 if (copyIDUpdate != null) {
                                     System.out.print("ID связанной книги: ");
                                     String inputBook = in.next();
@@ -199,12 +184,17 @@ public class BookCopyMenu extends AbstractMenu {
                                         break;
                                     }
                                     copyIDUpdate.setBookForCopy(bookService.find(idBook));
-                                    bookCopyService.update(copyIDUpdate);
+                                    boolean actionCopyUpdate = confirmationOfAction();
+                                    if (actionCopyUpdate) {
+                                        bookCopyService.update(copyIDUpdate);
+                                    } else {
+                                        System.out.println("\nОбъект НЕ обновлен!\n");
+                                    }
                                 }
                                 break;
 
                             case "0":
-                                authorMenu = new AuthorMenu();
+                                bookCopyMenu = new BookCopyMenu();
                                 break;
 
                             default:

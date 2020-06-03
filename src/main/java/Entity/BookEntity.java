@@ -1,6 +1,8 @@
 package Entity;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,77 +44,103 @@ public class BookEntity {
     @Column(name = "LanguageBook", nullable = false, length = 800)
     private String languageBook;
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "bookForAdaptation", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<AdaptationsEntity> adaptationsForBook;
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "bookForCopy", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BookCopyEntity> copiesForBook;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<GenreEntity> genresForBook;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<AuthorEntity> authorsForBook;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PublishingHouseID")
     private PublishingHouseEntity publishingHouseForBook;
 
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int bookId) { this.id = bookId; }
-
-
-    public String getTitle() { return title; }
-
-    public void setTitle(String title) { this.title = title; }
-
-
-    public int getYearOfWriting() { return yearOfWriting; }
-
-    public void setYearOfWriting(int yearOfWriting) { this.yearOfWriting = yearOfWriting; }
+    public void setId(int bookId) {
+        this.id = bookId;
+    }
 
 
-    public String getLanguageBook() { return languageBook; }
+    public String getTitle() {
+        return title;
+    }
 
-    public void setLanguageBook(String languageBook) { this.languageBook = languageBook; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
 
-    public Set<AdaptationsEntity> getAdaptationsForBook() { return adaptationsForBook; }
+    public int getYearOfWriting() {
+        return yearOfWriting;
+    }
+
+    public void setYearOfWriting(int yearOfWriting) {
+        this.yearOfWriting = yearOfWriting;
+    }
+
+
+    public String getLanguageBook() {
+        return languageBook;
+    }
+
+    public void setLanguageBook(String languageBook) {
+        this.languageBook = languageBook;
+    }
+
+
+    public Set<AdaptationsEntity> getAdaptationsForBook() {
+        return adaptationsForBook;
+    }
 
     public void setAdaptationsForBook(Set<AdaptationsEntity> adaptationsForBook) {
         this.adaptationsForBook = adaptationsForBook;
     }
 
 
-    public Set<BookCopyEntity> getCopiesForBook() { return copiesForBook; }
+    public Set<BookCopyEntity> getCopiesForBook() {
+        return copiesForBook;
+    }
 
     public void setCopiesForBook(Set<BookCopyEntity> copiesForBook) {
         this.copiesForBook = copiesForBook;
     }
 
 
-    public Set<GenreEntity> getGenresForBook() { return genresForBook; }
+    public Set<GenreEntity> getGenresForBook() {
+        return genresForBook;
+    }
 
     public void setGenresForBook(Set<GenreEntity> genresForBook) {
         this.genresForBook = genresForBook;
     }
 
 
-    public Set<AuthorEntity> getAuthorsForBook() { return authorsForBook; }
+    public Set<AuthorEntity> getAuthorsForBook() {
+        return authorsForBook;
+    }
 
     public void setAuthorsForBook(Set<AuthorEntity> authorsForBook) {
         this.authorsForBook = authorsForBook;
     }
 
 
-    public PublishingHouseEntity getPublishingHouseForBook() { return publishingHouseForBook; }
+    public PublishingHouseEntity getPublishingHouseForBook() {
+        return publishingHouseForBook;
+    }
 
     public void setPublishingHouseForBook(PublishingHouseEntity publishingHouseForBook) {
         this.publishingHouseForBook = publishingHouseForBook;

@@ -1,10 +1,9 @@
 package Menu;
 
+import Service.AbstractService;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 public abstract class AbstractMenu {
@@ -40,8 +39,11 @@ public abstract class AbstractMenu {
             System.out.println("\nВведено неверное значение!");
             return actionSelection();
         }
-        if (Integer.parseInt(num) >= 0 && Integer.parseInt(num) <= 4) { return num; }
-        else { return actionSelection(); }
+        if (Integer.parseInt(num) >= 0 && Integer.parseInt(num) <= 4) {
+            return num;
+        } else {
+            return actionSelection();
+        }
     }
 
     public static boolean confirmationOfAction() {
@@ -60,6 +62,19 @@ public abstract class AbstractMenu {
             return true;
         } catch (NumberFormatException e) {
             return false;
+        }
+    }
+
+    public <T> T getUpdateEntity(AbstractService<T> abstractService) {
+        System.out.print("Введите ID объекта, информацию о котором нужно обновить: ");
+        int idUpdateT = in.nextInt();
+        var tIDUpdate = abstractService.find(idUpdateT);
+        if (tIDUpdate != null) {
+            System.out.println("\n" + tIDUpdate + "\n");
+            return tIDUpdate;
+        } else {
+            System.out.println("\nПо запросу ничего не найдено\n");
+            return null;
         }
     }
 }

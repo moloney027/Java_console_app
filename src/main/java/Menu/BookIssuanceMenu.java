@@ -13,19 +13,6 @@ public class BookIssuanceMenu extends AbstractMenu {
 
     private final BookIssuanceService bookIssueService = new BookIssuanceService();
 
-    public BookIssuanceEntity getIssueEntity() {
-        System.out.print("Введите ID выдачии, информацию о которой нужно обновить: ");
-        int idIssueUpdate = in.nextInt();
-        var issueIDUpdate = bookIssueService.find(idIssueUpdate);
-        if (issueIDUpdate != null) {
-            System.out.println("\n" + issueIDUpdate + "\n");
-            return issueIDUpdate;
-        } else {
-            System.out.println("\nПо запросу ничего не найдено\n");
-            return null;
-        }
-    }
-
     public BookIssuanceMenu() throws IOException, ParseException {
 
         String choiceIssue = actionSelection();
@@ -271,7 +258,7 @@ public class BookIssuanceMenu extends AbstractMenu {
                     try {
                         switch (updateIssue) {
                             case "1":
-                                var issueIDUpdate = getIssueEntity();
+                                var issueIDUpdate = getUpdateEntity(bookIssueService);
                                 if (issueIDUpdate != null) {
                                     System.out.print("Дата выдачи (yyyy-mm-dd): ");
                                     String dateInput1 = in.next();
@@ -306,7 +293,7 @@ public class BookIssuanceMenu extends AbstractMenu {
                                 break;
 
                             case "2":
-                                issueIDUpdate = getIssueEntity();
+                                issueIDUpdate = getUpdateEntity(bookIssueService);
                                 if (issueIDUpdate != null) {
                                     System.out.print("Дата выдачи (yyyy-mm-dd): ");
                                     String dateInput1 = in.next();
@@ -329,7 +316,7 @@ public class BookIssuanceMenu extends AbstractMenu {
                                 break;
 
                             case "3":
-                                issueIDUpdate = getIssueEntity();
+                                issueIDUpdate = getUpdateEntity(bookIssueService);
                                 if (issueIDUpdate != null) {
                                     System.out.print("Дата сдачи (yyyy-mm-dd): ");
                                     String dateInput2 = in.next();

@@ -1,7 +1,7 @@
 package Entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -43,32 +43,50 @@ public class ReadersEntity {
     @Column(name = "AddressReader", nullable = false, length = 800)
     private String addressReader;
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "readerForIssuance", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BookIssuanceEntity> allIssuanceForReader;
 
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int libraryCard) { this.id = libraryCard; }
-
-
-    public String getFullName() { return fullName; }
-
-    public void setFullName(String fullName) { this.fullName = fullName; }
-
-
-    public int getAge() { return age; }
-
-    public void setAge(int age) { this.age = age; }
+    public void setId(int libraryCard) {
+        this.id = libraryCard;
+    }
 
 
-    public String getAddressReader() { return addressReader; }
+    public String getFullName() {
+        return fullName;
+    }
 
-    public void setAddressReader(String addressReader) { this.addressReader = addressReader; }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
 
-    public Set<BookIssuanceEntity> getAllIssuanceForReader() { return allIssuanceForReader; }
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+
+    public String getAddressReader() {
+        return addressReader;
+    }
+
+    public void setAddressReader(String addressReader) {
+        this.addressReader = addressReader;
+    }
+
+
+    public Set<BookIssuanceEntity> getAllIssuanceForReader() {
+        return allIssuanceForReader;
+    }
 
     public void setAllIssuanceForReader(Set<BookIssuanceEntity> allIssuanceForReader) {
         this.allIssuanceForReader = allIssuanceForReader;

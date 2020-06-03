@@ -1,8 +1,7 @@
 package Entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,25 +32,37 @@ public class FineEntity {
     @Column(name = "Amount", nullable = false)
     private Integer amount;
 
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "BookIssuanceID")
     private BookIssuanceEntity issuanceForFine;
 
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int fineId) { this.id = fineId; }
+    public void setId(int fineId) {
+        this.id = fineId;
+    }
 
 
-    public Integer getAmount() { return amount; }
+    public Integer getAmount() {
+        return amount;
+    }
 
-    public void setAmount(Integer amount) { this.amount = amount; }
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
 
 
-    public BookIssuanceEntity getIssuanceForFine() { return issuanceForFine; }
+    public BookIssuanceEntity getIssuanceForFine() {
+        return issuanceForFine;
+    }
 
-    public void setIssuanceForFine(BookIssuanceEntity issuanceForFine) { this.issuanceForFine = issuanceForFine; }
+    public void setIssuanceForFine(BookIssuanceEntity issuanceForFine) {
+        this.issuanceForFine = issuanceForFine;
+    }
 
 
     public String toJSON() throws JsonProcessingException {

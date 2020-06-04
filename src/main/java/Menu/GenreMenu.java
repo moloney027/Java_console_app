@@ -25,7 +25,7 @@ public class GenreMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String findGenre = in.next();
+                    String findGenre = bf.readLine();
                     System.out.println();
 
                     boolean boolGenreFind = true;
@@ -45,9 +45,16 @@ public class GenreMenu extends AbstractMenu {
 
                             case "2":
                                 System.out.print("Введите ID жанра: ");
-                                int idGenreFind = in.nextInt();
-                                System.out.println();
+                                String idGenre = bf.readLine();
+                                int idGenreFind;
+                                if (tryParseInt(idGenre)) {
+                                    idGenreFind = Integer.parseInt(idGenre);
+                                } else {
+                                    System.out.println("\n'" + idGenre + "' нельзя привести к int!\n");
+                                    break;
+                                }
                                 var genreIDFind = genreService.find(idGenreFind);
+
                                 if (genreIDFind == null) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -61,6 +68,7 @@ public class GenreMenu extends AbstractMenu {
                                 String nameGenreFind = bf.readLine();
                                 System.out.println();
                                 var genreNameFind = genreService.findByTitle(nameGenreFind);
+
                                 if (genreNameFind == null || genreNameFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -90,7 +98,7 @@ public class GenreMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String saveGenre = in.next();
+                    String saveGenre = bf.readLine();
                     System.out.println();
 
                     boolean boolGenreSave = true;
@@ -132,15 +140,22 @@ public class GenreMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String deleteGenre = in.next();
+                    String deleteGenre = bf.readLine();
                     System.out.println();
 
                     try {
                         switch (deleteGenre) {
                             case "1":
                                 System.out.print("Введите ID жанра: ");
-                                int idGenreDelete = in.nextInt();
-                                System.out.println();
+                                String idDelete = bf.readLine();
+                                int idGenreDelete;
+                                if (tryParseInt(idDelete)) {
+                                    idGenreDelete = Integer.parseInt(idDelete);
+                                } else {
+                                    System.out.println("\n'" + idDelete + "' нельзя привести к int!\n");
+                                    break;
+                                }
+
                                 boolean actionGenreDelete = confirmationOfAction();
                                 if (actionGenreDelete) {
                                     genreService.delete(idGenreDelete);
@@ -169,7 +184,7 @@ public class GenreMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String updateGenre = in.next();
+                    String updateGenre = bf.readLine();
                     System.out.println();
 
                     try {
@@ -179,6 +194,7 @@ public class GenreMenu extends AbstractMenu {
                                 if (genreIDUpdate != null) {
                                     System.out.print("Название жанра: ");
                                     genreIDUpdate.setTitle(bf.readLine());
+
                                     boolean actionGenreUpdate = confirmationOfAction();
                                     if (actionGenreUpdate) {
                                         genreService.update(genreIDUpdate);

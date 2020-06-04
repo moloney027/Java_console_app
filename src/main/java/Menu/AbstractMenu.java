@@ -3,8 +3,8 @@ package Menu;
 import Service.AbstractService;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 public abstract class AbstractMenu {
 
@@ -21,10 +21,9 @@ public abstract class AbstractMenu {
     PublishingHouseMenu publishingHouseMenu;
     ReadersMenu readersMenu;
 
-    static Scanner in = new Scanner(System.in);
     static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-    public static String actionSelection() {
+    public static String actionSelection() throws IOException {
         System.out.println("\nВыберите одно из следующих действий: ");
         System.out.println("1 - Найти");
         System.out.println("2 - Добавить");
@@ -33,10 +32,10 @@ public abstract class AbstractMenu {
         System.out.println("0 - Вернуться назад");
 
         System.out.print("\nНомер действия: ");
-        String num = in.next();
+        String num = bf.readLine();
 
         if (!tryParseInt(num)) {
-            System.out.println("\nВведено неверное значение!");
+            System.out.println("\n'" + num + "' нельзя привести к int!\n");
             return actionSelection();
         }
         if (Integer.parseInt(num) >= 0 && Integer.parseInt(num) <= 4) {
@@ -46,12 +45,12 @@ public abstract class AbstractMenu {
         }
     }
 
-    public static boolean confirmationOfAction() {
+    public static boolean confirmationOfAction() throws IOException {
         System.out.println("\nВы действительно хотите совершить данное действие? ");
         System.out.println("y - yes");
         System.out.println("n - no");
         System.out.print("\nВаш выбор: ");
-        String ch = in.next();
+        String ch = bf.readLine();
         System.out.println();
         return ch.equals("y");
     }
@@ -65,10 +64,17 @@ public abstract class AbstractMenu {
         }
     }
 
-    public <T> T getUpdateEntity(AbstractService<T> abstractService) {
+    public <T> T getUpdateEntity(AbstractService<T> abstractService) throws IOException {
         System.out.print("Введите ID объекта, информацию о котором нужно обновить: ");
-        int idUpdateT = in.nextInt();
+        String idUpdate = bf.readLine();
+        int idUpdateT = 0;
+        if (tryParseInt(idUpdate)) {
+            idUpdateT = Integer.parseInt(idUpdate);
+        } else {
+            System.out.println("\n'" + idUpdate + "' нельзя привести к int!\n");
+        }
         var tIDUpdate = abstractService.find(idUpdateT);
+
         if (tIDUpdate != null) {
             System.out.println("\n" + tIDUpdate + "\n");
             return tIDUpdate;

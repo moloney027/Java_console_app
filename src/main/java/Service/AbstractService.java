@@ -12,7 +12,9 @@ public abstract class AbstractService<T> {
         repository = new Repository<T>(t);
     }
 
-    public List<T> findAll() { return repository.findAll(); }
+    public List<T> findAll() {
+        return repository.findAll();
+    }
 
     public T find(int id) {
         return repository.find(id);
@@ -26,7 +28,9 @@ public abstract class AbstractService<T> {
         repository.delete(t);
     }
 
-    public void delete(int id) { repository.delete(id); }
+    public void delete(int id) {
+        repository.delete(id);
+    }
 
     public void update(T t) {
         repository.update(t);

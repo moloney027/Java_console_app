@@ -25,7 +25,7 @@ public class BookCopyMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String findCopy = in.next();
+                    String findCopy = bf.readLine();
                     System.out.println();
 
                     boolean boolCopyFind = true;
@@ -45,9 +45,16 @@ public class BookCopyMenu extends AbstractMenu {
 
                             case "2":
                                 System.out.print("Введите ID экземпляра: ");
-                                int idCopyFind = in.nextInt();
-                                System.out.println();
+                                String idCopy = bf.readLine();
+                                int idCopyFind;
+                                if (tryParseInt(idCopy)) {
+                                    idCopyFind = Integer.parseInt(idCopy);
+                                } else {
+                                    System.out.println("\n'" + idCopy + "' нельзя привести к int!\n");
+                                    break;
+                                }
                                 var copyIDFind = bookCopyService.find(idCopyFind);
+
                                 if (copyIDFind == null) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -75,7 +82,7 @@ public class BookCopyMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String saveCopy = in.next();
+                    String saveCopy = bf.readLine();
                     System.out.println();
 
                     boolean boolCopySave = true;
@@ -85,19 +92,18 @@ public class BookCopyMenu extends AbstractMenu {
                                 BookService bookService = new BookService();
                                 BookCopyEntity copyEntitySave = new BookCopyEntity();
                                 System.out.println("Введите данные для добавления экземпляра: \n");
+
                                 System.out.print("ID связанной книги: ");
-                                String inputBook = in.next();
-                                System.out.println();
+                                String inputBook = bf.readLine();
                                 int idBook;
                                 if (tryParseInt(inputBook)) {
                                     idBook = Integer.parseInt(inputBook);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputBook + "' нельзя привести к int!\n");
                                     boolCopySave = false;
                                     break;
                                 }
                                 copyEntitySave.setBookForCopy(bookService.find(idBook));
-                                System.out.println();
 
                                 boolean actionCopySave = confirmationOfAction();
                                 if (actionCopySave) {
@@ -127,15 +133,22 @@ public class BookCopyMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String deleteCopy = in.next();
+                    String deleteCopy = bf.readLine();
                     System.out.println();
 
                     try {
                         switch (deleteCopy) {
                             case "1":
                                 System.out.print("Введите ID экземпляра: ");
-                                int idCopyDelete = in.nextInt();
-                                System.out.println();
+                                String idDelete = bf.readLine();
+                                int idCopyDelete;
+                                if (tryParseInt(idDelete)) {
+                                    idCopyDelete = Integer.parseInt(idDelete);
+                                } else {
+                                    System.out.println("\n'" + idDelete + "' нельзя привести к int!\n");
+                                    break;
+                                }
+
                                 boolean actionCopyDelete = confirmationOfAction();
                                 if (actionCopyDelete) {
                                     bookCopyService.delete(idCopyDelete);
@@ -164,7 +177,7 @@ public class BookCopyMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String updateAuth = in.next();
+                    String updateAuth = bf.readLine();
                     System.out.println();
 
                     try {
@@ -174,16 +187,16 @@ public class BookCopyMenu extends AbstractMenu {
                                 var copyIDUpdate = getUpdateEntity(bookCopyService);
                                 if (copyIDUpdate != null) {
                                     System.out.print("ID связанной книги: ");
-                                    String inputBook = in.next();
-                                    System.out.println();
+                                    String inputBook = bf.readLine();
                                     int idBook;
                                     if (tryParseInt(inputBook)) {
                                         idBook = Integer.parseInt(inputBook);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputBook + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     copyIDUpdate.setBookForCopy(bookService.find(idBook));
+
                                     boolean actionCopyUpdate = confirmationOfAction();
                                     if (actionCopyUpdate) {
                                         bookCopyService.update(copyIDUpdate);

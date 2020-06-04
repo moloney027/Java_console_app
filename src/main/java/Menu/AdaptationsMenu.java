@@ -108,6 +108,7 @@ public class AdaptationsMenu extends AbstractMenu {
                                 String countryAdaptFind = bf.readLine();
                                 System.out.println();
                                 var adaptCountryFind = adaptationsService.findByCountry(countryAdaptFind);
+
                                 if (adaptCountryFind == null || adaptCountryFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -137,7 +138,7 @@ public class AdaptationsMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String saveAdapt = in.next();
+                    String saveAdapt = bf.readLine();
                     System.out.println();
 
                     boolean boolAdaptSave = true;
@@ -147,34 +148,38 @@ public class AdaptationsMenu extends AbstractMenu {
                             case "1":
                                 AdaptationsEntity adaptEntitySave = new AdaptationsEntity();
                                 System.out.println("Введите данные для добавления адаптации: \n");
+
                                 System.out.print("Тип адаптации: ");
-                                adaptEntitySave.setTypeAdaptation(in.next());
+                                adaptEntitySave.setTypeAdaptation(bf.readLine());
+
                                 System.out.print("Год адаптации: ");
-                                String inputYear = in.next();
+                                String inputYear = bf.readLine();
                                 int year;
                                 if (tryParseInt(inputYear)) {
                                     year = Integer.parseInt(inputYear);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputYear + "' нельзя привести к int!\n");
                                     boolAdaptSave = false;
                                     break;
                                 }
                                 adaptEntitySave.setYear(year);
+
                                 System.out.print("Страна адаптации: ");
-                                adaptEntitySave.setCountry(in.next());
+                                adaptEntitySave.setCountry(bf.readLine());
+
                                 System.out.print("ID связанной книги: ");
-                                String inputBook = in.next();
+                                String inputBook = bf.readLine();
                                 System.out.println();
                                 int idBook;
                                 if (tryParseInt(inputBook)) {
                                     idBook = Integer.parseInt(inputBook);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputBook + "' нельзя привести к int!\n");
                                     boolAdaptSave = false;
                                     break;
                                 }
                                 adaptEntitySave.setBookForAdaptation(bookService.find(idBook));
-                                System.out.println();
+
                                 boolean actionAdaptSave = confirmationOfAction();
                                 if (actionAdaptSave) {
                                     adaptationsService.save(adaptEntitySave);
@@ -203,15 +208,22 @@ public class AdaptationsMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String deleteAdapt = in.next();
+                    String deleteAdapt = bf.readLine();
                     System.out.println();
 
                     try {
                         switch (deleteAdapt) {
                             case "1":
                                 System.out.print("Введите ID адаптации: ");
-                                int idAdaptDelete = in.nextInt();
-                                System.out.println();
+                                String idAdaptFind = bf.readLine();
+                                int idAdaptDelete;
+                                if (tryParseInt(idAdaptFind)) {
+                                    idAdaptDelete = Integer.parseInt(idAdaptFind);
+                                } else {
+                                    System.out.println("\n'" + idAdaptFind + "' нельзя привести к int!\n");
+                                    break;
+                                }
+
                                 boolean actionAdaptDelete = confirmationOfAction();
                                 if (actionAdaptDelete) {
                                     adaptationsService.delete(idAdaptDelete);
@@ -245,7 +257,7 @@ public class AdaptationsMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String updateAdapt = in.next();
+                    String updateAdapt = bf.readLine();
                     System.out.println();
 
                     try {
@@ -255,31 +267,34 @@ public class AdaptationsMenu extends AbstractMenu {
                                 BookService bookService = new BookService();
                                 if (adaptIDUpdate != null) {
                                     System.out.print("Тип адаптации: ");
-                                    adaptIDUpdate.setTypeAdaptation(in.next());
+                                    adaptIDUpdate.setTypeAdaptation(bf.readLine());
+
                                     System.out.print("Год адаптации: ");
-                                    String inputYear = in.next();
+                                    String inputYear = bf.readLine();
                                     int year;
                                     if (tryParseInt(inputYear)) {
                                         year = Integer.parseInt(inputYear);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputYear + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     adaptIDUpdate.setYear(year);
+
                                     System.out.print("Страна адаптации: ");
-                                    adaptIDUpdate.setCountry(in.next());
+                                    adaptIDUpdate.setCountry(bf.readLine());
 
                                     System.out.print("ID связанной книги: ");
-                                    String inputBook = in.next();
+                                    String inputBook = bf.readLine();
                                     System.out.println();
                                     int idBook;
                                     if (tryParseInt(inputBook)) {
                                         idBook = Integer.parseInt(inputBook);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputBook + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     adaptIDUpdate.setBookForAdaptation(bookService.find(idBook));
+
                                     adaptationsService.update(adaptIDUpdate);
 
                                     boolean actionAdaptUpdateAll = confirmationOfAction();
@@ -295,7 +310,8 @@ public class AdaptationsMenu extends AbstractMenu {
                                 adaptIDUpdate = getUpdateEntity(adaptationsService);
                                 if (adaptIDUpdate != null) {
                                     System.out.print("Тип адаптации: ");
-                                    adaptIDUpdate.setTypeAdaptation(in.next());
+                                    adaptIDUpdate.setTypeAdaptation(bf.readLine());
+
                                     boolean actionAdaptUpdateType = confirmationOfAction();
                                     if (actionAdaptUpdateType) {
                                         adaptationsService.update(adaptIDUpdate);
@@ -309,15 +325,16 @@ public class AdaptationsMenu extends AbstractMenu {
                                 adaptIDUpdate = getUpdateEntity(adaptationsService);
                                 if (adaptIDUpdate != null) {
                                     System.out.print("Год адаптации: ");
-                                    String inputYear = in.next();
+                                    String inputYear = bf.readLine();
                                     int year;
                                     if (tryParseInt(inputYear)) {
                                         year = Integer.parseInt(inputYear);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputYear + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     adaptIDUpdate.setYear(year);
+
                                     boolean actionAdaptUpdateYear = confirmationOfAction();
                                     if (actionAdaptUpdateYear) {
                                         adaptationsService.update(adaptIDUpdate);
@@ -331,7 +348,8 @@ public class AdaptationsMenu extends AbstractMenu {
                                 adaptIDUpdate = getUpdateEntity(adaptationsService);
                                 if (adaptIDUpdate != null) {
                                     System.out.print("Страна адаптации: ");
-                                    adaptIDUpdate.setCountry(in.next());
+                                    adaptIDUpdate.setCountry(bf.readLine());
+
                                     boolean actionAdaptUpdateCountry = confirmationOfAction();
                                     if (actionAdaptUpdateCountry) {
                                         adaptationsService.update(adaptIDUpdate);
@@ -346,16 +364,17 @@ public class AdaptationsMenu extends AbstractMenu {
                                 adaptIDUpdate = getUpdateEntity(adaptationsService);
                                 if (adaptIDUpdate != null) {
                                     System.out.print("ID связанной книги: ");
-                                    String inputBook = in.next();
+                                    String inputBook = bf.readLine();
                                     System.out.println();
                                     int idBook;
                                     if (tryParseInt(inputBook)) {
                                         idBook = Integer.parseInt(inputBook);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputBook + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     adaptIDUpdate.setBookForAdaptation(bookService.find(idBook));
+
                                     boolean actionAdaptUpdateBook = confirmationOfAction();
                                     if (actionAdaptUpdateBook) {
                                         adaptationsService.update(adaptIDUpdate);

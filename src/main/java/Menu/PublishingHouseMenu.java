@@ -26,7 +26,7 @@ public class PublishingHouseMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String findPH = in.next();
+                    String findPH = bf.readLine();
                     System.out.println();
 
                     boolean boolPHFind = true;
@@ -46,9 +46,16 @@ public class PublishingHouseMenu extends AbstractMenu {
 
                             case "2":
                                 System.out.print("Введите ID издательства: ");
-                                int idPHFind = in.nextInt();
-                                System.out.println();
+                                String idFind = bf.readLine();
+                                int idPHFind;
+                                if (tryParseInt(idFind)) {
+                                    idPHFind = Integer.parseInt(idFind);
+                                } else {
+                                    System.out.println("\n'" + idFind + "' нельзя привести к int!\n");
+                                    break;
+                                }
                                 var pHIDFind = pHService.find(idPHFind);
+
                                 if (pHIDFind == null) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -62,6 +69,7 @@ public class PublishingHouseMenu extends AbstractMenu {
                                 String namePHFind = bf.readLine();
                                 System.out.println();
                                 var pHNameFind = pHService.findByTitle(namePHFind);
+
                                 if (pHNameFind == null || pHNameFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -74,16 +82,16 @@ public class PublishingHouseMenu extends AbstractMenu {
 
                             case "4":
                                 System.out.print("Введите год основания издательства: ");
-                                String inputPH = in.next();
-                                System.out.println();
+                                String inputPH = bf.readLine();
                                 int yearPHFind;
                                 if (tryParseInt(inputPH)) {
                                     yearPHFind = Integer.parseInt(inputPH);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputPH + "' нельзя привести к int!\n");
                                     break;
                                 }
                                 var pHYearFind = pHService.findByDate(yearPHFind);
+
                                 if (pHYearFind == null || pHYearFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -113,7 +121,7 @@ public class PublishingHouseMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String saveFine = in.next();
+                    String saveFine = bf.readLine();
                     System.out.println();
 
                     boolean boolFineSave = true;
@@ -122,22 +130,20 @@ public class PublishingHouseMenu extends AbstractMenu {
                             case "1":
                                 PublishingHouseEntity pHEntitySave = new PublishingHouseEntity();
                                 System.out.println("Введите данные для добавления издательства: \n");
-
                                 System.out.print("Название издательства: ");
                                 pHEntitySave.setTitle(bf.readLine());
 
                                 System.out.print("Год основания издательства: ");
-                                String inputYear = in.next();
+                                String inputYear = bf.readLine();
                                 int year;
                                 if (tryParseInt(inputYear)) {
                                     year = Integer.parseInt(inputYear);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputYear + "' нельзя привести к int!\n");
                                     boolFineSave = false;
                                     break;
                                 }
                                 pHEntitySave.setDateOfEstablishment(year);
-                                System.out.println();
 
                                 boolean actionPHSave = confirmationOfAction();
                                 if (actionPHSave) {
@@ -167,15 +173,22 @@ public class PublishingHouseMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String deleteFine = in.next();
+                    String deleteFine = bf.readLine();
                     System.out.println();
 
                     try {
                         switch (deleteFine) {
                             case "1":
                                 System.out.print("Введите ID издательства: ");
-                                int idPHDelete = in.nextInt();
-                                System.out.println();
+                                String idDelete = bf.readLine();
+                                int idPHDelete;
+                                if (tryParseInt(idDelete)) {
+                                    idPHDelete = Integer.parseInt(idDelete);
+                                } else {
+                                    System.out.println("\n'" + idDelete + "' нельзя привести к int!\n");
+                                    break;
+                                }
+
                                 boolean actionPHDelete = confirmationOfAction();
                                 if (actionPHDelete) {
                                     pHService.delete(idPHDelete);
@@ -206,7 +219,7 @@ public class PublishingHouseMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String updatePH = in.next();
+                    String updatePH = bf.readLine();
                     System.out.println();
 
                     try {
@@ -219,16 +232,15 @@ public class PublishingHouseMenu extends AbstractMenu {
                                     pHIDUpdate.setTitle(bf.readLine());
 
                                     System.out.print("Год основания издательства: ");
-                                    String inputYear = in.next();
+                                    String inputYear = bf.readLine();
                                     int year;
                                     if (tryParseInt(inputYear)) {
                                         year = Integer.parseInt(inputYear);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputYear + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     pHIDUpdate.setDateOfEstablishment(year);
-                                    System.out.println();
 
                                     boolean actionBookUpdateAll = confirmationOfAction();
                                     if (actionBookUpdateAll) {
@@ -244,7 +256,7 @@ public class PublishingHouseMenu extends AbstractMenu {
                                 if (pHIDUpdate != null) {
                                     System.out.print("Название издательства: ");
                                     pHIDUpdate.setTitle(bf.readLine());
-                                    System.out.println();
+
                                     boolean actionAuthUpdateDate = confirmationOfAction();
                                     if (actionAuthUpdateDate) {
                                         pHService.update(pHIDUpdate);
@@ -258,16 +270,16 @@ public class PublishingHouseMenu extends AbstractMenu {
                                 pHIDUpdate = getUpdateEntity(pHService);
                                 if (pHIDUpdate != null) {
                                     System.out.print("Год основания издательства: ");
-                                    String inputYear = in.next();
+                                    String inputYear = bf.readLine();
                                     int year;
                                     if (tryParseInt(inputYear)) {
                                         year = Integer.parseInt(inputYear);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputYear + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     pHIDUpdate.setDateOfEstablishment(year);
-                                    System.out.println();
+
                                     boolean actionAuthUpdatePlace = confirmationOfAction();
                                     if (actionAuthUpdatePlace) {
                                         pHService.update(pHIDUpdate);

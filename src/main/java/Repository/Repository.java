@@ -19,12 +19,12 @@ public class Repository<T> implements CRUDRepository<T> {
     public List<T> findAll() {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<T> criteriaQuery = (CriteriaQuery<T>) criteriaBuilder.createQuery(ob.getClass());
-            Root<T> rootEntry = (Root<T>) criteriaQuery.from(ob.getClass());
-            CriteriaQuery<T> all = criteriaQuery.select(rootEntry);
+            CriteriaQuery<T> criteriaQuery = (CriteriaQuery<T>) criteriaBuilder.createQuery(ob.getClass()); // создание запроса
+            Root<T> rootEntry = (Root<T>) criteriaQuery.from(ob.getClass()); // целевая таблица
+            CriteriaQuery<T> all = criteriaQuery.select(rootEntry); // описание запроса
             TypedQuery<T> allQuery = session.createQuery(all);
             Transaction tx1 = session.beginTransaction();
-            var res = allQuery.getResultList();
+            List<T> res = allQuery.getResultList();
             tx1.commit();
             return res;
         } catch (Exception e) {
@@ -37,13 +37,9 @@ public class Repository<T> implements CRUDRepository<T> {
     public T find(int id) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            //Начинается создание запроса
             CriteriaQuery<T> criteriaQuery = (CriteriaQuery<T>) criteriaBuilder.createQuery(ob.getClass());
-            //Указываем целевую таблицу
             Root<T> rootEntry = (Root<T>) criteriaQuery.from(ob.getClass());
-            //Описание параметра
-            ParameterExpression<Integer> parameterExpression = criteriaBuilder.parameter(Integer.class);
-            //Описание запроса
+            ParameterExpression<Integer> parameterExpression = criteriaBuilder.parameter(Integer.class); // описание параметра
             criteriaQuery.select(rootEntry).where(criteriaBuilder.equal(rootEntry.get("id"), parameterExpression));
             TypedQuery<T> query = session.createQuery(criteriaQuery);
             query.setParameter(parameterExpression, id);
@@ -88,9 +84,7 @@ public class Repository<T> implements CRUDRepository<T> {
         session.createQuery(delete).executeUpdate();
         tx1.commit();
         session.close();
-        System.out.println();
         System.out.println("\n**** Объект удален ****\n");
-        System.out.println();
     }
 
     @Override
@@ -100,9 +94,6 @@ public class Repository<T> implements CRUDRepository<T> {
         session.update(t);
         tx1.commit();
         session.close();
-        System.out.println();
         System.out.println("\n**** Объект обновлен ****\n");
-        System.out.println();
-
     }
 }

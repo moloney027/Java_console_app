@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 
 public class BookIssuanceService extends AbstractService<BookIssuanceEntity> {
 
-    public BookIssuanceService() { super(new BookIssuanceEntity()); }
+    public BookIssuanceService() {
+        super(new BookIssuanceEntity());
+    }
 
     public List<BookIssuanceEntity> findByDateOfIssue(Date dateIss) {
         List<BookIssuanceEntity> listIssues = repository.findAll();

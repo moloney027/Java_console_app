@@ -1,10 +1,12 @@
 package Menu;
 
-import Entity.AdaptationsEntity;
 import Entity.AuthorEntity;
 import Entity.BookEntity;
 import Entity.GenreEntity;
-import Service.*;
+import Service.AuthorService;
+import Service.BookService;
+import Service.GenreService;
+import Service.PublishingHouseService;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -32,7 +34,7 @@ public class BookMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String findBook = in.next();
+                    String findBook = bf.readLine();
                     System.out.println();
 
                     boolean boolBookFind = true;
@@ -52,9 +54,16 @@ public class BookMenu extends AbstractMenu {
 
                             case "2":
                                 System.out.print("Введите ID книги: ");
-                                int idBookFind = in.nextInt();
-                                System.out.println();
-                                var bookIDFind = bookService.find(idBookFind);
+                                String idBookFind = bf.readLine();
+                                int idBook;
+                                if (tryParseInt(idBookFind)) {
+                                    idBook = Integer.parseInt(idBookFind);
+                                } else {
+                                    System.out.println("\n'" + idBookFind + "' нельзя привести к int!\n");
+                                    break;
+                                }
+                                var bookIDFind = bookService.find(idBook);
+
                                 if (bookIDFind == null) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -66,8 +75,8 @@ public class BookMenu extends AbstractMenu {
                             case "3":
                                 System.out.print("Введите название книги: ");
                                 String nameBookFind = bf.readLine();
-                                System.out.println();
                                 var bookNameFind = bookService.findByTitle(nameBookFind);
+
                                 if (bookNameFind == null || bookNameFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -80,16 +89,17 @@ public class BookMenu extends AbstractMenu {
 
                             case "4":
                                 System.out.print("Введите год написания: ");
-                                String inputBook = in.next();
+                                String inputBook = bf.readLine();
                                 System.out.println();
                                 int yearBookFind;
                                 if (tryParseInt(inputBook)) {
                                     yearBookFind = Integer.parseInt(inputBook);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputBook + "' нельзя привести к int!\n");
                                     break;
                                 }
                                 var bookYearFind = bookService.findByYear(yearBookFind);
+
                                 if (bookYearFind == null || bookYearFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -105,6 +115,7 @@ public class BookMenu extends AbstractMenu {
                                 String langBookFind = bf.readLine();
                                 System.out.println();
                                 var bookLangFind = bookService.findByLanguage(langBookFind);
+
                                 if (bookLangFind == null || bookLangFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -134,7 +145,7 @@ public class BookMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String saveBook = in.next();
+                    String saveBook = bf.readLine();
                     System.out.println();
 
                     boolean boolBookSave = true;
@@ -143,19 +154,17 @@ public class BookMenu extends AbstractMenu {
                             case "1":
                                 BookEntity bookEntitySave = new BookEntity();
                                 PublishingHouseService publishingHouseService = new PublishingHouseService();
-                                AdaptationsService adaptationsService = new AdaptationsService();
                                 System.out.println("Введите данные для добавления книги: \n");
-
                                 System.out.print("Название книги: ");
                                 bookEntitySave.setTitle(bf.readLine());
 
                                 System.out.print("Год написания: ");
-                                String inputYear = in.next();
+                                String inputYear = bf.readLine();
                                 int year;
                                 if (tryParseInt(inputYear)) {
                                     year = Integer.parseInt(inputYear);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputYear + "' нельзя привести к int!\n");
                                     boolBookSave = false;
                                     break;
                                 }
@@ -165,18 +174,16 @@ public class BookMenu extends AbstractMenu {
                                 bookEntitySave.setLanguageBook(bf.readLine());
 
                                 System.out.print("ID связанного издательства: ");
-                                String inputPH = in.next();
-                                System.out.println();
+                                String inputPH = bf.readLine();
                                 int idPH;
                                 if (tryParseInt(inputPH)) {
                                     idPH = Integer.parseInt(inputPH);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputPH + "' нельзя привести к int!\n");
                                     boolBookSave = false;
                                     break;
                                 }
                                 bookEntitySave.setPublishingHouseForBook(publishingHouseService.find(idPH));
-                                System.out.println();
 
                                 boolean actionBookSave = confirmationOfAction();
                                 if (actionBookSave) {
@@ -206,18 +213,25 @@ public class BookMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String deleteBook = in.next();
+                    String deleteBook = bf.readLine();
                     System.out.println();
 
                     try {
                         switch (deleteBook) {
                             case "1":
                                 System.out.print("Введите ID книги: ");
-                                int idBookDelete = in.nextInt();
-                                System.out.println();
+                                String idBookDelete = bf.readLine();
+                                int idDelete;
+                                if (tryParseInt(idBookDelete)) {
+                                    idDelete = Integer.parseInt(idBookDelete);
+                                } else {
+                                    System.out.println("\n'" + idBookDelete + "' нельзя привести к int!\n");
+                                    break;
+                                }
+
                                 boolean actionBookDelete = confirmationOfAction();
                                 if (actionBookDelete) {
-                                    bookService.delete(idBookDelete);
+                                    bookService.delete(idDelete);
                                 } else {
                                     System.out.println("\nОбъект НЕ удален!\n");
                                 }
@@ -249,7 +263,7 @@ public class BookMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String updateBook = in.next();
+                    String updateBook = bf.readLine();
                     System.out.println();
 
                     try {
@@ -262,12 +276,12 @@ public class BookMenu extends AbstractMenu {
                                     bookIDUpdate.setTitle(bf.readLine());
 
                                     System.out.print("Год написания: ");
-                                    String inputYear = in.next();
+                                    String inputYear = bf.readLine();
                                     int year;
                                     if (tryParseInt(inputYear)) {
                                         year = Integer.parseInt(inputYear);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputYear + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     bookIDUpdate.setYearOfWriting(year);
@@ -276,16 +290,16 @@ public class BookMenu extends AbstractMenu {
                                     bookIDUpdate.setLanguageBook(bf.readLine());
 
                                     System.out.print("ID связанного издательства: ");
-                                    String inputPH = in.next();
-                                    System.out.println();
+                                    String inputPH = bf.readLine();
                                     int idPH;
                                     if (tryParseInt(inputPH)) {
                                         idPH = Integer.parseInt(inputPH);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputPH + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     bookIDUpdate.setPublishingHouseForBook(publishingHouseService.find(idPH));
+
                                     boolean actionBookUpdateAll = confirmationOfAction();
                                     if (actionBookUpdateAll) {
                                         bookService.update(bookIDUpdate);
@@ -300,6 +314,7 @@ public class BookMenu extends AbstractMenu {
                                 if (bookIDUpdate != null) {
                                     System.out.print("Название книги: ");
                                     bookIDUpdate.setTitle(bf.readLine());
+
                                     boolean actionAuthUpdateDate = confirmationOfAction();
                                     if (actionAuthUpdateDate) {
                                         bookService.update(bookIDUpdate);
@@ -313,15 +328,16 @@ public class BookMenu extends AbstractMenu {
                                 bookIDUpdate = getUpdateEntity(bookService);
                                 if (bookIDUpdate != null) {
                                     System.out.print("Год написания: ");
-                                    String inputYear = in.next();
+                                    String inputYear = bf.readLine();
                                     int year;
                                     if (tryParseInt(inputYear)) {
                                         year = Integer.parseInt(inputYear);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputYear + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     bookIDUpdate.setYearOfWriting(year);
+
                                     boolean actionAuthUpdatePlace = confirmationOfAction();
                                     if (actionAuthUpdatePlace) {
                                         bookService.update(bookIDUpdate);
@@ -336,6 +352,7 @@ public class BookMenu extends AbstractMenu {
                                 if (bookIDUpdate != null) {
                                     System.out.print("Язык написания книги: ");
                                     bookIDUpdate.setLanguageBook(bf.readLine());
+
                                     boolean actionAuthUpdateName = confirmationOfAction();
                                     if (actionAuthUpdateName) {
                                         bookService.update(bookIDUpdate);
@@ -349,16 +366,16 @@ public class BookMenu extends AbstractMenu {
                                 bookIDUpdate = getUpdateEntity(bookService);
                                 publishingHouseService = new PublishingHouseService();
                                 System.out.print("ID связанного издательства: ");
-                                String inputPH = in.next();
-                                System.out.println();
+                                String inputPH = bf.readLine();
                                 int idPH;
                                 if (tryParseInt(inputPH)) {
                                     idPH = Integer.parseInt(inputPH);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputPH + "' нельзя привести к int!\n");
                                     break;
                                 }
                                 bookIDUpdate.setPublishingHouseForBook(publishingHouseService.find(idPH));
+
                                 boolean actionBookUpdatePH = confirmationOfAction();
                                 if (actionBookUpdatePH) {
                                     bookService.update(bookIDUpdate);
@@ -370,20 +387,17 @@ public class BookMenu extends AbstractMenu {
                             case "6":
                                 bookIDUpdate = getUpdateEntity(bookService);
                                 GenreService genreService = new GenreService();
-                                System.out.print("ID жанра(ов) для книги: ");
+                                System.out.print("ID жанра(ов) для книги (через пробел): ");
                                 String[] inputGenre = bf.readLine().split(" ");
-                                System.out.println();
                                 Set<GenreEntity> genreEntities = new HashSet<>();
-
                                 for (String idGenre : inputGenre) {
                                     if (tryParseInt(idGenre)) {
                                         genreEntities.add(genreService.find(Integer.parseInt(idGenre)));
                                     } else {
-                                        System.out.println("Не получилось \'" + idGenre + "\' привести к int!");
+                                        System.out.println("\n'" + idGenre + "' нельзя привести к int!\n");
                                     }
                                 }
                                 bookIDUpdate.setGenresForBook(genreEntities);
-                                System.out.println();
 
                                 boolean actionBookUpdate = confirmationOfAction();
                                 if (actionBookUpdate) {
@@ -397,20 +411,18 @@ public class BookMenu extends AbstractMenu {
                             case "7":
                                 bookIDUpdate = getUpdateEntity(bookService);
                                 AuthorService authorService = new AuthorService();
-                                System.out.print("ID автора(ов) для книги: ");
+                                System.out.print("ID автора(ов) для книги (через пробел): ");
                                 String[] inputAuthor = bf.readLine().split(" ");
                                 System.out.println();
                                 Set<AuthorEntity> authorEntities = new HashSet<>();
-
                                 for (String idAuth : inputAuthor) {
                                     if (tryParseInt(idAuth)) {
                                         authorEntities.add(authorService.find(Integer.parseInt(idAuth)));
                                     } else {
-                                        System.out.println("Не получилось \'" + idAuth + "\' привести к int!");
+                                        System.out.println("\n'" + idAuth + "' нельзя привести к int!\n");
                                     }
                                 }
                                 bookIDUpdate.setAuthorsForBook(authorEntities);
-                                System.out.println();
 
                                 boolean actionBookUpdateAuth = confirmationOfAction();
                                 if (actionBookUpdateAuth) {

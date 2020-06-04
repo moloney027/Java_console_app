@@ -22,7 +22,7 @@ public class MainMenu extends AbstractMenu {
             System.out.println("0 - Выход\n");
 
             System.out.print("Номер таблицы: ");
-            String numTable = in.next();
+            String numTable = bf.readLine();
 
             switch (numTable) {
                 case "1":

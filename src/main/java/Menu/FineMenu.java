@@ -26,7 +26,7 @@ public class FineMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String findFine = in.next();
+                    String findFine = bf.readLine();
                     System.out.println();
 
                     boolean boolFineFind = true;
@@ -46,9 +46,16 @@ public class FineMenu extends AbstractMenu {
 
                             case "2":
                                 System.out.print("Введите ID штрафа: ");
-                                int idFineFind = in.nextInt();
-                                System.out.println();
+                                String idFine = bf.readLine();
+                                int idFineFind;
+                                if (tryParseInt(idFine)) {
+                                    idFineFind = Integer.parseInt(idFine);
+                                } else {
+                                    System.out.println("\n'" + idFine + "' нельзя привести к int!\n");
+                                    break;
+                                }
                                 var fineIDFind = fineService.find(idFineFind);
+
                                 if (fineIDFind == null) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -59,9 +66,16 @@ public class FineMenu extends AbstractMenu {
 
                             case "3":
                                 System.out.print("Введите сумму штрафа: ");
-                                int amountFineFind = in.nextInt();
-                                System.out.println();
+                                String amountFine = bf.readLine();
+                                int amountFineFind;
+                                if (tryParseInt(amountFine)) {
+                                    amountFineFind = Integer.parseInt(amountFine);
+                                } else {
+                                    System.out.println("\n'" + amountFine + "' нельзя привести к int!\n");
+                                    break;
+                                }
                                 var bookNameFind = fineService.findByAmount(amountFineFind);
+
                                 if (bookNameFind == null || bookNameFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -91,7 +105,7 @@ public class FineMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String saveFine = in.next();
+                    String saveFine = bf.readLine();
                     System.out.println();
 
                     boolean boolFineSave = true;
@@ -103,30 +117,29 @@ public class FineMenu extends AbstractMenu {
                                 System.out.println("Введите данные для добавления штрафа: \n");
 
                                 System.out.print("Сумма штрафа: ");
-                                String inputAmount = in.next();
+                                String inputAmount = bf.readLine();
                                 int amount;
                                 if (tryParseInt(inputAmount)) {
                                     amount = Integer.parseInt(inputAmount);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputAmount + "' нельзя привести к int!\n");
                                     boolFineSave = false;
                                     break;
                                 }
                                 fineEntitySave.setAmount(amount);
 
                                 System.out.print("ID связанной выдачи: ");
-                                String inputIssue = in.next();
+                                String inputIssue = bf.readLine();
                                 System.out.println();
                                 int idPH;
                                 if (tryParseInt(inputIssue)) {
                                     idPH = Integer.parseInt(inputIssue);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputIssue + "' нельзя привести к int!\n");
                                     boolFineSave = false;
                                     break;
                                 }
                                 fineEntitySave.setIssuanceForFine(bookIssuanceService.find(idPH));
-                                System.out.println();
 
                                 boolean actionFineSave = confirmationOfAction();
                                 if (actionFineSave) {
@@ -156,15 +169,22 @@ public class FineMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String deleteFine = in.next();
+                    String deleteFine = bf.readLine();
                     System.out.println();
 
                     try {
                         switch (deleteFine) {
                             case "1":
                                 System.out.print("Введите ID штрафа: ");
-                                int idFineDelete = in.nextInt();
-                                System.out.println();
+                                String idDelete = bf.readLine();
+                                int idFineDelete;
+                                if (tryParseInt(idDelete)) {
+                                    idFineDelete = Integer.parseInt(idDelete);
+                                } else {
+                                    System.out.println("\n'" + idDelete + "' нельзя привести к int!\n");
+                                    break;
+                                }
+
                                 boolean actionFineDelete = confirmationOfAction();
                                 if (actionFineDelete) {
                                     fineService.delete(idFineDelete);
@@ -195,7 +215,7 @@ public class FineMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String updateFine = in.next();
+                    String updateFine = bf.readLine();
                     System.out.println();
 
                     try {
@@ -205,28 +225,27 @@ public class FineMenu extends AbstractMenu {
                                 var fineIDUpdate = getUpdateEntity(fineService);
                                 if (fineIDUpdate != null) {
                                     System.out.print("Сумма штрафа: ");
-                                    String inputAmount = in.next();
+                                    String inputAmount = bf.readLine();
                                     int amount;
                                     if (tryParseInt(inputAmount)) {
                                         amount = Integer.parseInt(inputAmount);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputAmount + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     fineIDUpdate.setAmount(amount);
 
                                     System.out.print("ID связанной выдачи: ");
-                                    String inputIssue = in.next();
+                                    String inputIssue = bf.readLine();
                                     System.out.println();
                                     int idPH;
                                     if (tryParseInt(inputIssue)) {
                                         idPH = Integer.parseInt(inputIssue);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputIssue + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     fineIDUpdate.setIssuanceForFine(bookIssuanceService.find(idPH));
-                                    System.out.println();
 
                                     boolean actionBookUpdateAll = confirmationOfAction();
                                     if (actionBookUpdateAll) {
@@ -241,15 +260,16 @@ public class FineMenu extends AbstractMenu {
                                 fineIDUpdate = getUpdateEntity(fineService);
                                 if (fineIDUpdate != null) {
                                     System.out.print("Сумма штрафа: ");
-                                    String inputAmount = in.next();
+                                    String inputAmount = bf.readLine();
                                     int amount;
                                     if (tryParseInt(inputAmount)) {
                                         amount = Integer.parseInt(inputAmount);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputAmount + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     fineIDUpdate.setAmount(amount);
+
                                     boolean actionAuthUpdateDate = confirmationOfAction();
                                     if (actionAuthUpdateDate) {
                                         fineService.update(fineIDUpdate);
@@ -264,17 +284,16 @@ public class FineMenu extends AbstractMenu {
                                 fineIDUpdate = getUpdateEntity(fineService);
                                 if (fineIDUpdate != null) {
                                     System.out.print("ID связанной выдачи: ");
-                                    String inputIssue = in.next();
-                                    System.out.println();
+                                    String inputIssue = bf.readLine();
                                     int idPH;
                                     if (tryParseInt(inputIssue)) {
                                         idPH = Integer.parseInt(inputIssue);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputIssue + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     fineIDUpdate.setIssuanceForFine(bookIssuanceService.find(idPH));
-                                    System.out.println();
+
                                     boolean actionAuthUpdatePlace = confirmationOfAction();
                                     if (actionAuthUpdatePlace) {
                                         fineService.update(fineIDUpdate);

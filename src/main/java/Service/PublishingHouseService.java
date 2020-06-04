@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 
 public class PublishingHouseService extends AbstractService<PublishingHouseEntity> {
 
-    public PublishingHouseService() { super(new PublishingHouseEntity()); }
+    public PublishingHouseService() {
+        super(new PublishingHouseEntity());
+    }
 
     public List<PublishingHouseEntity> findByTitle(String title) {
         List<PublishingHouseEntity> listpH = repository.findAll();

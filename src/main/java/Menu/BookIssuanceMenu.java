@@ -29,7 +29,7 @@ public class BookIssuanceMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String findIssue = in.next();
+                    String findIssue = bf.readLine();
                     System.out.println();
 
                     boolean boolIssueFind = true;
@@ -49,9 +49,16 @@ public class BookIssuanceMenu extends AbstractMenu {
 
                             case "2":
                                 System.out.print("Введите ID выдачи: ");
-                                int idIssueFind = in.nextInt();
-                                System.out.println();
+                                String idIssue = bf.readLine();
+                                int idIssueFind;
+                                if (tryParseInt(idIssue)) {
+                                    idIssueFind = Integer.parseInt(idIssue);
+                                } else {
+                                    System.out.println("\n'" + idIssue + "' нельзя привести к int!\n");
+                                    break;
+                                }
                                 var issueIDFind = bookIssueService.find(idIssueFind);
+
                                 if (issueIDFind == null) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -61,17 +68,17 @@ public class BookIssuanceMenu extends AbstractMenu {
                                 break;
 
                             case "3":
-                                System.out.print("Введите дату выдачи в форате yyyy-mm-dd: ");
-                                String dateIssueFind = in.next();
+                                System.out.print("Введите дату выдачи в формате yyyy-mm-dd: ");
+                                String dateIssueFind = bf.readLine();
                                 Date dateFind;
                                 try {
                                     dateFind = Date.valueOf(dateIssueFind);
                                 } catch (Exception e) {
-                                    System.out.println("\nНеверно введено значение\n");
+                                    System.out.println("\n'" + dateIssueFind + "' нельзя привести к date!\n");
                                     break;
                                 }
-                                System.out.println();
                                 var issueDateFind = bookIssueService.findByDateOfIssue(dateFind);
+
                                 if (issueDateFind == null || issueDateFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -84,7 +91,7 @@ public class BookIssuanceMenu extends AbstractMenu {
 
                             case "4":
                                 System.out.print("Введите дату выдачи в форате yyyy-mm-dd: ");
-                                String dateCompFind = in.next();
+                                String dateCompFind = bf.readLine();
                                 Date dateFindComp;
                                 try {
                                     dateFindComp = Date.valueOf(dateCompFind);
@@ -92,8 +99,8 @@ public class BookIssuanceMenu extends AbstractMenu {
                                     System.out.println("\nНеверно введено значение\n");
                                     break;
                                 }
-                                System.out.println();
                                 var compDateFind = bookIssueService.findByDateOfComp(dateFindComp);
+
                                 if (compDateFind == null || compDateFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -123,7 +130,7 @@ public class BookIssuanceMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String saveIssue = in.next();
+                    String saveIssue = bf.readLine();
                     System.out.println();
 
                     boolean boolIssueSave = true;
@@ -133,57 +140,52 @@ public class BookIssuanceMenu extends AbstractMenu {
                                 ReadersService readersService = new ReadersService();
                                 BookCopyService bookCopyService = new BookCopyService();
                                 BookIssuanceEntity issueEntity = new BookIssuanceEntity();
-
                                 System.out.println("Введите данные для добавления выдачи: \n");
                                 System.out.print("Дата выдачи (yyyy-mm-dd): ");
-                                String issueInput = in.next();
+                                String issueInput = bf.readLine();
                                 Date issueSave;
                                 try {
                                     issueSave = Date.valueOf(issueInput);
                                 } catch (Exception e) {
-                                    System.out.println("\nНеверно введено значение\n");
+                                    System.out.println("\n'" + issueInput + "' нельзя привести к date!\n");
                                     break;
                                 }
                                 issueEntity.setDateOfIssue(issueSave);
 
                                 System.out.print("Дата сдачи (yyyy-mm-dd): ");
-                                String compInput = in.next();
+                                String compInput = bf.readLine();
                                 Date compSave;
                                 try {
                                     compSave = Date.valueOf(compInput);
                                 } catch (Exception e) {
-                                    System.out.println("\nНеверно введено значение\n");
+                                    System.out.println("\n'" + compInput + "' нельзя привести к date!\n");
                                     break;
                                 }
                                 issueEntity.setDateOfCompletion(compSave);
 
                                 System.out.print("ID связанной копии книги: ");
-                                String inputCopy = in.next();
-                                System.out.println();
+                                String inputCopy = bf.readLine();
                                 int idCopy;
                                 if (tryParseInt(inputCopy)) {
                                     idCopy = Integer.parseInt(inputCopy);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputCopy + "' нельзя привести к int!\n");
                                     boolIssueSave = false;
                                     break;
                                 }
                                 issueEntity.setCopyForIssuance(bookCopyService.find(idCopy));
-                                System.out.println();
 
                                 System.out.print("ID связанного читателя: ");
-                                String inputReader = in.next();
-                                System.out.println();
+                                String inputReader = bf.readLine();
                                 int idReader;
                                 if (tryParseInt(inputReader)) {
                                     idReader = Integer.parseInt(inputReader);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputReader + "' нельзя привести к int!\n");
                                     boolIssueSave = false;
                                     break;
                                 }
                                 issueEntity.setReaderForIssuance(readersService.find(idReader));
-                                System.out.println();
 
                                 boolean actionAuthSave = confirmationOfAction();
                                 if (actionAuthSave) {
@@ -213,18 +215,25 @@ public class BookIssuanceMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String deleteAuth = in.next();
+                    String deleteAuth = bf.readLine();
                     System.out.println();
 
                     try {
                         switch (deleteAuth) {
                             case "1":
                                 System.out.print("Введите ID выдачи: ");
-                                int idIssueDelete = in.nextInt();
-                                System.out.println();
+                                String idDelete = bf.readLine();
+                                int idDeleteIssue;
+                                if (tryParseInt(idDelete)) {
+                                    idDeleteIssue = Integer.parseInt(idDelete);
+                                } else {
+                                    System.out.println("\n'" + idDelete + "' нельзя привести к int!\n");
+                                    break;
+                                }
+
                                 boolean actionIssueDelete = confirmationOfAction();
                                 if (actionIssueDelete) {
-                                    bookIssueService.delete(idIssueDelete);
+                                    bookIssueService.delete(idDeleteIssue);
                                 } else {
                                     System.out.println("\nОбъект НЕ удален!\n");
                                 }
@@ -252,7 +261,7 @@ public class BookIssuanceMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String updateIssue = in.next();
+                    String updateIssue = bf.readLine();
                     System.out.println();
 
                     try {
@@ -261,27 +270,26 @@ public class BookIssuanceMenu extends AbstractMenu {
                                 var issueIDUpdate = getUpdateEntity(bookIssueService);
                                 if (issueIDUpdate != null) {
                                     System.out.print("Дата выдачи (yyyy-mm-dd): ");
-                                    String dateInput1 = in.next();
+                                    String dateInput1 = bf.readLine();
                                     Date dateUpdate1;
                                     try {
                                         dateUpdate1 = Date.valueOf(dateInput1);
                                     } catch (Exception e) {
-                                        System.out.println("\nНеверно введено значение\n");
+                                        System.out.println("\n'" + dateInput1 + "' нельзя привести к date!\n");
                                         break;
                                     }
                                     issueIDUpdate.setDateOfIssue(dateUpdate1);
 
                                     System.out.print("Дата сдачи (yyyy-mm-dd): ");
-                                    String dateInput2 = in.next();
+                                    String dateInput2 = bf.readLine();
                                     Date dateUpdate2;
                                     try {
                                         dateUpdate2 = Date.valueOf(dateInput2);
                                     } catch (Exception e) {
-                                        System.out.println("\nНеверно введено значение\n");
+                                        System.out.println("\n'" + dateInput2 + "' нельзя привести к date!\n");
                                         break;
                                     }
                                     issueIDUpdate.setDateOfCompletion(dateUpdate2);
-
 
                                     boolean actionIssueUpdateAll = confirmationOfAction();
                                     if (actionIssueUpdateAll) {
@@ -296,12 +304,12 @@ public class BookIssuanceMenu extends AbstractMenu {
                                 issueIDUpdate = getUpdateEntity(bookIssueService);
                                 if (issueIDUpdate != null) {
                                     System.out.print("Дата выдачи (yyyy-mm-dd): ");
-                                    String dateInput1 = in.next();
+                                    String dateInput1 = bf.readLine();
                                     Date dateUpdate1;
                                     try {
                                         dateUpdate1 = Date.valueOf(dateInput1);
                                     } catch (Exception e) {
-                                        System.out.println("\nНеверно введено значение\n");
+                                        System.out.println("\n'" + dateInput1 + "' нельзя привести к date!\n");
                                         break;
                                     }
                                     issueIDUpdate.setDateOfIssue(dateUpdate1);
@@ -319,12 +327,12 @@ public class BookIssuanceMenu extends AbstractMenu {
                                 issueIDUpdate = getUpdateEntity(bookIssueService);
                                 if (issueIDUpdate != null) {
                                     System.out.print("Дата сдачи (yyyy-mm-dd): ");
-                                    String dateInput2 = in.next();
+                                    String dateInput2 = bf.readLine();
                                     Date dateUpdate2;
                                     try {
                                         dateUpdate2 = Date.valueOf(dateInput2);
                                     } catch (Exception e) {
-                                        System.out.println("\nНеверно введено значение\n");
+                                        System.out.println("\n'" + dateInput2 + "' нельзя привести к date!\n");
                                         break;
                                     }
                                     issueIDUpdate.setDateOfCompletion(dateUpdate2);

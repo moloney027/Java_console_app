@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 
 public class GenreService extends AbstractService<GenreEntity> {
 
-    public GenreService() { super(new GenreEntity()); }
+    public GenreService() {
+        super(new GenreEntity());
+    }
 
     public List<GenreEntity> findByTitle(String title) {
         List<GenreEntity> listGenres = repository.findAll();

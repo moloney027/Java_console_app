@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 
 public class LogInAndSignUpService extends AbstractService<LogInAndSignUpEntity> {
 
-    public LogInAndSignUpService() { super(new LogInAndSignUpEntity()); }
+    public LogInAndSignUpService() {
+        super(new LogInAndSignUpEntity());
+    }
 
     public List<LogInAndSignUpEntity> findByLogin(String login) {
         List<LogInAndSignUpEntity> listLogins = repository.findAll();

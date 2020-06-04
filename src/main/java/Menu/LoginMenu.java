@@ -16,7 +16,7 @@ public class LoginMenu extends AbstractMenu {
             try {
                 System.out.println("\nДля входа нажмите 1, для регистрации нажмите 2.");
                 System.out.print("\nВыбор: ");
-                String input = in.next();
+                String input = bf.readLine();
                 if (tryParseInt(input)) {
                     choice = Integer.parseInt(input);
                 }
@@ -38,9 +38,9 @@ public class LoginMenu extends AbstractMenu {
 
     private void registration() throws Exception {
         System.out.print("\nВведите новый логин: ");
-        String log = in.next();
+        String log = bf.readLine();
         System.out.print("Введите новый пароль: ");
-        String pass = in.next();
+        String pass = bf.readLine();
         System.out.println();
 
         boolean conf = confirmationOfAction();
@@ -62,9 +62,9 @@ public class LoginMenu extends AbstractMenu {
 
     private void authorization() throws Exception {
         System.out.print("\nВведите логин: ");
-        String log = in.next();
+        String log = bf.readLine();
         System.out.print("Введите пароль: ");
-        String pass = DigestUtils.md5Hex(in.next());
+        String pass = DigestUtils.md5Hex(bf.readLine());
         System.out.println();
 
         var listLogin = logInAndSignUpService.findAll();

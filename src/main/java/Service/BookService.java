@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 
 public class BookService extends AbstractService<BookEntity> {
 
-    public BookService() { super(new BookEntity()); }
+    public BookService() {
+        super(new BookEntity());
+    }
 
     public List<BookEntity> findByTitle(String title) {
         List<BookEntity> listBooks = repository.findAll();

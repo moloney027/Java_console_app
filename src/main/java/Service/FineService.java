@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 
 public class FineService extends AbstractService<FineEntity> {
 
-    public FineService() { super(new FineEntity()); }
+    public FineService() {
+        super(new FineEntity());
+    }
 
     public List<FineEntity> findByAmount(int amount) {
         List<FineEntity> listFines = repository.findAll();

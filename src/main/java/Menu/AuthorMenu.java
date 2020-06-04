@@ -28,7 +28,7 @@ public class AuthorMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String findAuth = in.next();
+                    String findAuth = bf.readLine();
                     System.out.println();
 
                     boolean boolAuthorFind = true;
@@ -48,9 +48,16 @@ public class AuthorMenu extends AbstractMenu {
 
                             case "2":
                                 System.out.print("Введите ID автора: ");
-                                int idAuthFind = in.nextInt();
-                                System.out.println();
+                                String idAuth = bf.readLine();
+                                int idAuthFind;
+                                if (tryParseInt(idAuth)) {
+                                    idAuthFind = Integer.parseInt(idAuth);
+                                } else {
+                                    System.out.println("\n'" + idAuth + "' нельзя привести к int!\n");
+                                    break;
+                                }
                                 var authIDFind = authorService.find(idAuthFind);
+
                                 if (authIDFind == null) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -62,8 +69,8 @@ public class AuthorMenu extends AbstractMenu {
                             case "3":
                                 System.out.print("Введите ФИО автора: ");
                                 String nameAuthFind = bf.readLine();
-                                System.out.println();
                                 var authNameFind = authorService.findByName(nameAuthFind);
+
                                 if (authNameFind == null || authNameFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -76,16 +83,16 @@ public class AuthorMenu extends AbstractMenu {
 
                             case "4":
                                 System.out.print("Введите дату рождения автора в форате yyyy-mm-dd: ");
-                                String dateAuthFind = in.next();
+                                String dateAuthFind = bf.readLine();
                                 Date dateFind;
                                 try {
                                     dateFind = Date.valueOf(dateAuthFind);
                                 } catch (Exception e) {
-                                    System.out.println("\nНеверно введено значение\n");
+                                    System.out.println("\n'" + dateAuthFind + "' нельзя привести к date!\n");
                                     break;
                                 }
-                                System.out.println();
                                 var authDateFind = authorService.findByDate(dateFind);
+
                                 if (authDateFind == null || authDateFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -99,8 +106,8 @@ public class AuthorMenu extends AbstractMenu {
                             case "5":
                                 System.out.print("Введите место рождения автора: ");
                                 String placeAuthFind = bf.readLine();
-                                System.out.println();
                                 var authPlaceFind = authorService.findByPlace(placeAuthFind);
+
                                 if (authPlaceFind == null || authPlaceFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -130,7 +137,7 @@ public class AuthorMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String saveAuth = in.next();
+                    String saveAuth = bf.readLine();
                     System.out.println();
 
                     boolean boolAuthSave = true;
@@ -141,19 +148,20 @@ public class AuthorMenu extends AbstractMenu {
                                 System.out.println("Введите данные для добавления автора: \n");
                                 System.out.print("ФИО автора: ");
                                 authEntitySave.setFullName(bf.readLine());
+
                                 System.out.print("Дата рождения (yyyy-mm-dd): ");
-                                String dateInput = in.next();
+                                String dateInput = bf.readLine();
                                 Date dateSave;
                                 try {
                                     dateSave = Date.valueOf(dateInput);
                                 } catch (Exception e) {
-                                    System.out.println("\nНеверно введено значение\n");
+                                    System.out.println("\n'" + dateInput + "' нельзя привести к date!\n");
                                     break;
                                 }
                                 authEntitySave.setDateOfBirth(dateSave);
+
                                 System.out.print("Место рождения автора: ");
                                 authEntitySave.setPlaceOfBirth(bf.readLine());
-                                System.out.println();
 
                                 boolean actionAuthSave = confirmationOfAction();
                                 if (actionAuthSave) {
@@ -183,15 +191,22 @@ public class AuthorMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String deleteAuth = in.next();
+                    String deleteAuth = bf.readLine();
                     System.out.println();
 
                     try {
                         switch (deleteAuth) {
                             case "1":
                                 System.out.print("Введите ID автора: ");
-                                int idAuthDelete = in.nextInt();
-                                System.out.println();
+                                String idDelete = bf.readLine();
+                                int idAuthDelete;
+                                if (tryParseInt(idDelete)) {
+                                    idAuthDelete = Integer.parseInt(idDelete);
+                                } else {
+                                    System.out.println("\n'" + idDelete + "' нельзя привести к int!\n");
+                                    break;
+                                }
+
                                 boolean actionAuthDelete = confirmationOfAction();
                                 if (actionAuthDelete) {
                                     authorService.delete(idAuthDelete);
@@ -223,7 +238,7 @@ public class AuthorMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String updateAuth = in.next();
+                    String updateAuth = bf.readLine();
                     System.out.println();
 
                     try {
@@ -233,18 +248,21 @@ public class AuthorMenu extends AbstractMenu {
                                 if (authIDUpdate != null) {
                                     System.out.print("ФИО автора: ");
                                     authIDUpdate.setFullName(bf.readLine());
+
                                     System.out.print("Дата рождения автора (yyyy-mm-dd): ");
-                                    String dateInput = in.next();
+                                    String dateInput = bf.readLine();
                                     Date dateUpdate;
                                     try {
                                         dateUpdate = Date.valueOf(dateInput);
                                     } catch (Exception e) {
-                                        System.out.println("\nНеверно введено значение\n");
+                                        System.out.println("\n'" + dateInput + "' нельзя привести к date!\n");
                                         break;
                                     }
                                     authIDUpdate.setDateOfBirth(dateUpdate);
+
                                     System.out.print("Место рождения автора: ");
                                     authIDUpdate.setPlaceOfBirth(bf.readLine());
+
                                     boolean actionAuthUpdateAll = confirmationOfAction();
                                     if (actionAuthUpdateAll) {
                                         authorService.update(authIDUpdate);
@@ -258,15 +276,16 @@ public class AuthorMenu extends AbstractMenu {
                                 authIDUpdate = getUpdateEntity(authorService);
                                 if (authIDUpdate != null) {
                                     System.out.print("Дата рождения автора (yyyy-mm-dd): ");
-                                    String dateInput = in.next();
+                                    String dateInput = bf.readLine();
                                     Date dateUpdate;
                                     try {
                                         dateUpdate = Date.valueOf(dateInput);
                                     } catch (Exception e) {
-                                        System.out.println("\nНеверно введено значение\n");
+                                        System.out.println("\n'" + dateInput + "' нельзя привести к date!\n");
                                         break;
                                     }
                                     authIDUpdate.setDateOfBirth(dateUpdate);
+
                                     boolean actionAuthUpdateDate = confirmationOfAction();
                                     if (actionAuthUpdateDate) {
                                         authorService.update(authIDUpdate);
@@ -282,6 +301,7 @@ public class AuthorMenu extends AbstractMenu {
                                     System.out.print("Место рождения автора: ");
                                     String place = bf.readLine();
                                     authIDUpdate.setPlaceOfBirth(place);
+
                                     boolean actionAuthUpdatePlace = confirmationOfAction();
                                     if (actionAuthUpdatePlace) {
                                         authorService.update(authIDUpdate);
@@ -296,6 +316,7 @@ public class AuthorMenu extends AbstractMenu {
                                 if (authIDUpdate != null) {
                                     System.out.print("ФИО автора: ");
                                     authIDUpdate.setFullName(bf.readLine());
+
                                     boolean actionAuthUpdateName = confirmationOfAction();
                                     if (actionAuthUpdateName) {
                                         authorService.update(authIDUpdate);

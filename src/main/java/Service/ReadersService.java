@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 
 public class ReadersService extends AbstractService<ReadersEntity> {
 
-    public ReadersService() { super(new ReadersEntity()); }
+    public ReadersService() {
+        super(new ReadersEntity());
+    }
 
     public List<ReadersEntity> findByName(String name) {
         List<ReadersEntity> listReaders = repository.findAll();

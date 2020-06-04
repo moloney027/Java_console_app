@@ -26,7 +26,7 @@ public class ReadersMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String findReader = in.next();
+                    String findReader = bf.readLine();
                     System.out.println();
 
                     boolean boolReaderFind = true;
@@ -46,9 +46,16 @@ public class ReadersMenu extends AbstractMenu {
 
                             case "2":
                                 System.out.print("Введите ID читателя: ");
-                                int idReaderFind = in.nextInt();
-                                System.out.println();
+                                String idFind = bf.readLine();
+                                int idReaderFind;
+                                if (tryParseInt(idFind)) {
+                                    idReaderFind = Integer.parseInt(idFind);
+                                } else {
+                                    System.out.println("\n'" + idFind + "' нельзя привести к int!\n");
+                                    break;
+                                }
                                 var readerIDFind = readersService.find(idReaderFind);
+
                                 if (readerIDFind == null) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -60,8 +67,8 @@ public class ReadersMenu extends AbstractMenu {
                             case "3":
                                 System.out.print("Введите ФИО читателя: ");
                                 String nameReaderFind = bf.readLine();
-                                System.out.println();
                                 var readerNameFind = readersService.findByName(nameReaderFind);
+
                                 if (readerNameFind == null || readerNameFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -74,9 +81,16 @@ public class ReadersMenu extends AbstractMenu {
 
                             case "4":
                                 System.out.print("Введите возраст: ");
-                                int ageReaderFind = in.nextInt();
-                                System.out.println();
+                                String ageFind = bf.readLine();
+                                int ageReaderFind;
+                                if (tryParseInt(ageFind)) {
+                                    ageReaderFind = Integer.parseInt(ageFind);
+                                } else {
+                                    System.out.println("\n'" + ageFind + "' нельзя привести к int!\n");
+                                    break;
+                                }
                                 var readerAgeFind = readersService.findByAge(ageReaderFind);
+
                                 if (readerAgeFind == null || readerAgeFind.isEmpty()) {
                                     System.out.println("\nПо запросу ничего не найдено\n");
                                 } else {
@@ -106,7 +120,7 @@ public class ReadersMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String saveReader = in.next();
+                    String saveReader = bf.readLine();
                     System.out.println();
 
                     boolean boolReaderSave = true;
@@ -120,19 +134,18 @@ public class ReadersMenu extends AbstractMenu {
                                 readersEntitySave.setFullName(bf.readLine());
 
                                 System.out.print("Возраст читателя: ");
-                                String inputAge = in.next();
+                                String inputAge = bf.readLine();
                                 int Age;
                                 if (tryParseInt(inputAge)) {
                                     Age = Integer.parseInt(inputAge);
                                 } else {
-                                    System.out.println("\nВведено неверное значение!\n");
+                                    System.out.println("\n'" + inputAge + "' нельзя привести к int!\n");
                                     break;
                                 }
                                 readersEntitySave.setAge(Age);
 
                                 System.out.print("Адрес читателя: ");
                                 readersEntitySave.setAddressReader(bf.readLine());
-                                System.out.println();
 
                                 boolean actionAuthSave = confirmationOfAction();
                                 if (actionAuthSave) {
@@ -162,15 +175,22 @@ public class ReadersMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String deleteReader = in.next();
+                    String deleteReader = bf.readLine();
                     System.out.println();
 
                     try {
                         switch (deleteReader) {
                             case "1":
                                 System.out.print("Введите ID читателя: ");
-                                int idReaderDelete = in.nextInt();
-                                System.out.println();
+                                String idDelete = bf.readLine();
+                                int idReaderDelete;
+                                if (tryParseInt(idDelete)) {
+                                    idReaderDelete = Integer.parseInt(idDelete);
+                                } else {
+                                    System.out.println("\n'" + idDelete + "' нельзя привести к int!\n");
+                                    break;
+                                }
+
                                 boolean actionReaderDelete = confirmationOfAction();
                                 if (actionReaderDelete) {
                                     readersService.delete(idReaderDelete);
@@ -202,7 +222,7 @@ public class ReadersMenu extends AbstractMenu {
                     System.out.println("0 - Вернуться назад\n");
 
                     System.out.print("Номер действия: ");
-                    String updateReader = in.next();
+                    String updateReader = bf.readLine();
                     System.out.println();
 
                     try {
@@ -214,19 +234,18 @@ public class ReadersMenu extends AbstractMenu {
                                     authIDUpdate.setFullName(bf.readLine());
 
                                     System.out.print("Возраст читателя: ");
-                                    String inputAge = in.next();
+                                    String inputAge = bf.readLine();
                                     int Age;
                                     if (tryParseInt(inputAge)) {
                                         Age = Integer.parseInt(inputAge);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputAge + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     authIDUpdate.setAge(Age);
 
                                     System.out.print("Адрес читателя: ");
                                     authIDUpdate.setAddressReader(bf.readLine());
-                                    System.out.println();
 
                                     boolean actionReaderUpdateAll = confirmationOfAction();
                                     if (actionReaderUpdateAll) {
@@ -242,6 +261,7 @@ public class ReadersMenu extends AbstractMenu {
                                 if (authIDUpdate != null) {
                                     System.out.print("ФИО читателя: ");
                                     authIDUpdate.setFullName(bf.readLine());
+
                                     boolean actionReaderUpdateName = confirmationOfAction();
                                     if (actionReaderUpdateName) {
                                         readersService.update(authIDUpdate);
@@ -255,15 +275,16 @@ public class ReadersMenu extends AbstractMenu {
                                 authIDUpdate = getUpdateEntity(readersService);
                                 if (authIDUpdate != null) {
                                     System.out.print("Возраст читателя: ");
-                                    String inputAge = in.next();
+                                    String inputAge = bf.readLine();
                                     int Age;
                                     if (tryParseInt(inputAge)) {
                                         Age = Integer.parseInt(inputAge);
                                     } else {
-                                        System.out.println("\nВведено неверное значение!\n");
+                                        System.out.println("\n'" + inputAge + "' нельзя привести к int!\n");
                                         break;
                                     }
                                     authIDUpdate.setAge(Age);
+
                                     boolean actionReaderUpdateAge = confirmationOfAction();
                                     if (actionReaderUpdateAge) {
                                         readersService.update(authIDUpdate);
@@ -278,6 +299,7 @@ public class ReadersMenu extends AbstractMenu {
                                 if (authIDUpdate != null) {
                                     System.out.print("Адрес читателя: ");
                                     authIDUpdate.setAddressReader(bf.readLine());
+
                                     boolean actionReaderUpdateAddress = confirmationOfAction();
                                     if (actionReaderUpdateAddress) {
                                         readersService.update(authIDUpdate);

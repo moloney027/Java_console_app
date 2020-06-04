@@ -9,7 +9,8 @@ public class HibernateSessionFactoryUtil {
 
     private static SessionFactory sessionFactory;
 
-    private HibernateSessionFactoryUtil() {}
+    private HibernateSessionFactoryUtil() {
+    }
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
@@ -27,12 +28,9 @@ public class HibernateSessionFactoryUtil {
                 configuration.addAnnotatedClass(LogInAndSignUpEntity.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());
-                System.out.println();
-                System.out.println("Создана SessionFactory!");
-                System.out.println();
+                System.out.println("\nСоздана SessionFactory!\n");
 
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Исключение!" + e);
             }
         }

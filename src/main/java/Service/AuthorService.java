@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 
 public class AuthorService extends AbstractService<AuthorEntity> {
 
-    public AuthorService() { super(new AuthorEntity()); }
+    public AuthorService() {
+        super(new AuthorEntity());
+    }
 
     public List<AuthorEntity> findByName(String fullName) {
         List<AuthorEntity> listAuth = repository.findAll();

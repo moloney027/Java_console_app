@@ -16,6 +16,23 @@ import java.util.Set;
 @Table(name = "Readers", schema = "dbo", catalog = "LibrarySystem")
 public class ReadersEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private int id;
+    @Basic
+    @Column(name = "FullName", nullable = false, length = 800)
+    private String fullName;
+    @Basic
+    @Column(name = "Age", nullable = false)
+    private int age;
+    @Basic
+    @Column(name = "AddressReader", nullable = false, length = 800)
+    private String addressReader;
+    @JsonBackReference
+    @OneToMany(mappedBy = "readerForIssuance", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BookIssuanceEntity> allIssuanceForReader;
+
     public ReadersEntity() {
     }
 
@@ -25,28 +42,6 @@ public class ReadersEntity {
         this.age = age;
         this.addressReader = addressReader;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
-    private int id;
-
-    @Basic
-    @Column(name = "FullName", nullable = false, length = 800)
-    private String fullName;
-
-    @Basic
-    @Column(name = "Age", nullable = false)
-    private int age;
-
-    @Basic
-    @Column(name = "AddressReader", nullable = false, length = 800)
-    private String addressReader;
-
-    @JsonBackReference
-    @OneToMany(mappedBy = "readerForIssuance", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BookIssuanceEntity> allIssuanceForReader;
-
 
     public int getId() {
         return id;

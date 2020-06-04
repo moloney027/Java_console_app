@@ -16,6 +16,17 @@ import java.util.Set;
 @Table(name = "Genre", schema = "dbo", catalog = "LibrarySystem")
 public class GenreEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private int id;
+    @Basic
+    @Column(name = "Title", nullable = false, length = 800)
+    private String title;
+    @JsonBackReference
+    @ManyToMany(mappedBy = "genresForBook")
+    private Set<BookEntity> booksForGenre;
+
     public GenreEntity() {
     }
 
@@ -23,20 +34,6 @@ public class GenreEntity {
         this.id = genreId;
         this.title = title;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
-    private int id;
-
-    @Basic
-    @Column(name = "Title", nullable = false, length = 800)
-    private String title;
-
-    @JsonBackReference
-    @ManyToMany(mappedBy = "genresForBook")
-    private Set<BookEntity> booksForGenre;
-
 
     public int getId() {
         return id;

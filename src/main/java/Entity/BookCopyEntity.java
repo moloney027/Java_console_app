@@ -16,27 +16,24 @@ import java.util.Set;
 @Table(name = "BookCopy", schema = "dbo", catalog = "LibrarySystem")
 public class BookCopyEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private int id;
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "BookID")
+    private BookEntity bookForCopy;
+    @JsonBackReference
+    @OneToMany(mappedBy = "copyForIssuance", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BookIssuanceEntity> allIssuanceForCopy;
+
     public BookCopyEntity() {
     }
 
     public BookCopyEntity(int bookCopyId) {
         this.id = bookCopyId;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
-    private int id;
-
-    @JsonManagedReference
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "BookID")
-    private BookEntity bookForCopy;
-
-    @JsonBackReference
-    @OneToMany(mappedBy = "copyForIssuance", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BookIssuanceEntity> allIssuanceForCopy;
-
 
     public int getId() {
         return id;

@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 
 public abstract class AbstractMenu {
 
+    BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+
     StartMenu startMenu;
     LoginMenu loginMenu;
     MainMenu mainMenu;
@@ -21,9 +23,7 @@ public abstract class AbstractMenu {
     PublishingHouseMenu publishingHouseMenu;
     ReadersMenu readersMenu;
 
-    static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-
-    public static String actionSelection() throws IOException {
+    String actionSelection() throws IOException {
         System.out.println("\nВыберите одно из следующих действий: ");
         System.out.println("1 - Найти");
         System.out.println("2 - Добавить");
@@ -45,7 +45,7 @@ public abstract class AbstractMenu {
         }
     }
 
-    public static boolean confirmationOfAction() throws IOException {
+    boolean confirmationOfAction() throws IOException {
         System.out.println("\nВы действительно хотите совершить данное действие? ");
         System.out.println("y - yes");
         System.out.println("n - no");
@@ -55,7 +55,7 @@ public abstract class AbstractMenu {
         return ch.equals("y");
     }
 
-    static boolean tryParseInt(String value) {
+    boolean tryParseInt(String value) {
         try {
             Integer.parseInt(value);
             return true;
@@ -64,7 +64,7 @@ public abstract class AbstractMenu {
         }
     }
 
-    public <T> T getUpdateEntity(AbstractService<T> abstractService) throws IOException {
+    <T> T getUpdateEntity(AbstractService<T> abstractService) throws IOException {
         System.out.print("Введите ID объекта, информацию о котором нужно обновить: ");
         String idUpdate = bf.readLine();
         int idUpdateT = 0;

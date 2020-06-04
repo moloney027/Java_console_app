@@ -9,10 +9,8 @@ import java.text.ParseException;
 
 public class AdaptationsMenu extends AbstractMenu {
 
-    private final AdaptationsService adaptationsService = new AdaptationsService();
-
     public AdaptationsMenu() throws ParseException, IOException {
-
+        AdaptationsService adaptationsService = new AdaptationsService();
         String choiceAdapt = actionSelection();
 
         boolean boolAdapt = true;

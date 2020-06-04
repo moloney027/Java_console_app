@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
+<module version="4">
   <component name="FacetManager">
     <facet type="hibernate" name="Hibernate">
       <configuration>
@@ -8,15 +8,6 @@
         </datasource-map>
         <naming-strategy-map />
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/main/resources/hibernate.cfg.xml" />
-      </configuration>
-    </facet>
-    <facet type="jpa" name="JPA">
-      <configuration>
-        <setting name="validation-enabled" value="true" />
-        <datasource-mapping>
-          <factory-entry name="LibrarySystem" value="b4dcf1c5-4a59-47f5-b308-df7d7eb57812" />
-        </datasource-mapping>
-        <naming-strategy-map />
       </configuration>
     </facet>
   </component>

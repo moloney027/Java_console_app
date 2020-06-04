@@ -17,6 +17,23 @@ import java.util.Set;
 @Table(name = "Author", schema = "dbo", catalog = "LibrarySystem")
 public class AuthorEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private int id;
+    @Basic
+    @Column(name = "FullName", nullable = false, length = 800)
+    private String fullName;
+    @Basic
+    @Column(name = "DateOfBirth", nullable = true)
+    private Date dateOfBirth;
+    @Basic
+    @Column(name = "PlaceOfBirth", nullable = true, length = 800)
+    private String placeOfBirth;
+    @JsonBackReference
+    @ManyToMany(mappedBy = "authorsForBook")
+    private Set<BookEntity> booksForAuthor;
+
     public AuthorEntity() {
     }
 
@@ -26,28 +43,6 @@ public class AuthorEntity {
         this.dateOfBirth = dateOfBirth;
         this.placeOfBirth = placeOfBirth;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
-    private int id;
-
-    @Basic
-    @Column(name = "FullName", nullable = false, length = 800)
-    private String fullName;
-
-    @Basic
-    @Column(name = "DateOfBirth", nullable = true)
-    private Date dateOfBirth;
-
-    @Basic
-    @Column(name = "PlaceOfBirth", nullable = true, length = 800)
-    private String placeOfBirth;
-
-    @JsonBackReference
-    @ManyToMany(mappedBy = "authorsForBook")
-    private Set<BookEntity> booksForAuthor;
-
 
     public int getId() {
         return id;

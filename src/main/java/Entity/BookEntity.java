@@ -17,6 +17,36 @@ import java.util.Set;
 @Table(name = "Book", schema = "dbo", catalog = "LibrarySystem")
 public class BookEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private int id;
+    @Basic
+    @Column(name = "Title", nullable = false, length = 800)
+    private String title;
+    @Basic
+    @Column(name = "YearOfWriting", nullable = false)
+    private int yearOfWriting;
+    @Basic
+    @Column(name = "LanguageBook", nullable = false, length = 800)
+    private String languageBook;
+    @JsonBackReference
+    @OneToMany(mappedBy = "bookForAdaptation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<AdaptationsEntity> adaptationsForBook;
+    @JsonBackReference
+    @OneToMany(mappedBy = "bookForCopy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BookCopyEntity> copiesForBook;
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<GenreEntity> genresForBook;
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<AuthorEntity> authorsForBook;
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "PublishingHouseID")
+    private PublishingHouseEntity publishingHouseForBook;
+
     public BookEntity() {
     }
 
@@ -26,45 +56,6 @@ public class BookEntity {
         this.yearOfWriting = yearOfWriting;
         this.languageBook = languageBook;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
-    private int id;
-
-    @Basic
-    @Column(name = "Title", nullable = false, length = 800)
-    private String title;
-
-    @Basic
-    @Column(name = "YearOfWriting", nullable = false)
-    private int yearOfWriting;
-
-    @Basic
-    @Column(name = "LanguageBook", nullable = false, length = 800)
-    private String languageBook;
-
-    @JsonBackReference
-    @OneToMany(mappedBy = "bookForAdaptation", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<AdaptationsEntity> adaptationsForBook;
-
-    @JsonBackReference
-    @OneToMany(mappedBy = "bookForCopy", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BookCopyEntity> copiesForBook;
-
-    @JsonManagedReference
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<GenreEntity> genresForBook;
-
-    @JsonManagedReference
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<AuthorEntity> authorsForBook;
-
-    @JsonManagedReference
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "PublishingHouseID")
-    private PublishingHouseEntity publishingHouseForBook;
-
 
     public int getId() {
         return id;

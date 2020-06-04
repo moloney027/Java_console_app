@@ -15,6 +15,24 @@ import java.util.Objects;
 @Table(name = "Adaptations", schema = "dbo", catalog = "LibrarySystem")
 public class AdaptationsEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private int id;
+    @Basic
+    @Column(name = "TypeAdaptation", nullable = false, length = 800)
+    private String typeAdaptation;
+    @Basic
+    @Column(name = "Year_", nullable = true)
+    private Integer year;
+    @Basic
+    @Column(name = "Country", nullable = true, length = 800)
+    private String country;
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "BookID")
+    private BookEntity bookForAdaptation;
+
     public AdaptationsEntity() {
     }
 
@@ -24,29 +42,6 @@ public class AdaptationsEntity {
         this.year = year;
         this.country = country;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
-    private int id;
-
-    @Basic
-    @Column(name = "TypeAdaptation", nullable = false, length = 800)
-    private String typeAdaptation;
-
-    @Basic
-    @Column(name = "Year_", nullable = true)
-    private Integer year;
-
-    @Basic
-    @Column(name = "Country", nullable = true, length = 800)
-    private String country;
-
-    @JsonManagedReference
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "BookID")
-    private BookEntity bookForAdaptation;
-
 
     public int getId() {
         return id;

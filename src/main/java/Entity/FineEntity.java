@@ -15,6 +15,18 @@ import java.util.Objects;
 @Table(name = "Fine", schema = "dbo", catalog = "LibrarySystem")
 public class FineEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private int id;
+    @Basic
+    @Column(name = "Amount", nullable = false)
+    private Integer amount;
+    @JsonBackReference
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "BookIssuanceID")
+    private BookIssuanceEntity issuanceForFine;
+
     public FineEntity() {
     }
 
@@ -22,21 +34,6 @@ public class FineEntity {
         this.id = fineId;
         this.amount = amount;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
-    private int id;
-
-    @Basic
-    @Column(name = "Amount", nullable = false)
-    private Integer amount;
-
-    @JsonBackReference
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "BookIssuanceID")
-    private BookIssuanceEntity issuanceForFine;
-
 
     public int getId() {
         return id;

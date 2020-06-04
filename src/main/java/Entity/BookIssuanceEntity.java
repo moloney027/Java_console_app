@@ -16,6 +16,28 @@ import java.util.Objects;
 @Table(name = "BookIssuance", schema = "dbo", catalog = "LibrarySystem")
 public class BookIssuanceEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private int id;
+    @Basic
+    @Column(name = "DateOfIssue", nullable = false)
+    private Date dateOfIssue;
+    @Basic
+    @Column(name = "DateOfCompletion", nullable = true)
+    private Date dateOfCompletion;
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "BookCopyID")
+    private BookCopyEntity copyForIssuance;
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "LibraryCard")
+    private ReadersEntity readerForIssuance;
+    @JsonManagedReference
+    @OneToOne(mappedBy = "issuanceForFine")
+    private FineEntity fineForIssuance;
+
     public BookIssuanceEntity() {
     }
 
@@ -24,34 +46,6 @@ public class BookIssuanceEntity {
         this.dateOfIssue = dateOfIssue;
         this.dateOfCompletion = dateOfCompletion;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
-    private int id;
-
-    @Basic
-    @Column(name = "DateOfIssue", nullable = false)
-    private Date dateOfIssue;
-
-    @Basic
-    @Column(name = "DateOfCompletion", nullable = true)
-    private Date dateOfCompletion;
-
-    @JsonManagedReference
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "BookCopyID")
-    private BookCopyEntity copyForIssuance;
-
-    @JsonManagedReference
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "LibraryCard")
-    private ReadersEntity readerForIssuance;
-
-    @JsonManagedReference
-    @OneToOne(mappedBy = "issuanceForFine")
-    private FineEntity fineForIssuance;
-
 
     public int getId() {
         return id;

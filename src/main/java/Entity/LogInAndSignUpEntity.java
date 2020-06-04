@@ -9,6 +9,17 @@ import java.util.Objects;
 @Table(name = "LogInAndSignUp", schema = "dbo", catalog = "LibrarySystem")
 public class LogInAndSignUpEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private int id;
+    @Basic
+    @Column(name = "Login_", nullable = false, length = 800)
+    private String Login_;
+    @Basic
+    @Column(name = "Password_", nullable = false, length = 800)
+    private String Password_;
+
     public LogInAndSignUpEntity() {
     }
 
@@ -17,20 +28,6 @@ public class LogInAndSignUpEntity {
         Login_ = login_;
         Password_ = password_;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
-    private int id;
-
-    @Basic
-    @Column(name = "Login_", nullable = false, length = 800)
-    private String Login_;
-
-    @Basic
-    @Column(name = "Password_", nullable = false, length = 800)
-    private String Password_;
-
 
     public int getId() {
         return id;

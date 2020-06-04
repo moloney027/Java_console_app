@@ -39,10 +39,8 @@ public class Repository<T> implements CRUDRepository<T> {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<T> criteriaQuery = (CriteriaQuery<T>) criteriaBuilder.createQuery(ob.getClass());
             Root<T> rootEntry = (Root<T>) criteriaQuery.from(ob.getClass());
-            ParameterExpression<Integer> parameterExpression = criteriaBuilder.parameter(Integer.class); // описание параметра
-            criteriaQuery.select(rootEntry).where(criteriaBuilder.equal(rootEntry.get("id"), parameterExpression));
+            criteriaQuery.select(rootEntry).where(criteriaBuilder.equal(rootEntry.get("id"), id));
             TypedQuery<T> query = session.createQuery(criteriaQuery);
-            query.setParameter(parameterExpression, id);
             Transaction tx1 = session.beginTransaction();
             T res = (T) query.getSingleResult();
             tx1.commit();

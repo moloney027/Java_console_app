@@ -16,6 +16,20 @@ import java.util.Set;
 @Table(name = "PublishingHouse", schema = "dbo", catalog = "LibrarySystem")
 public class PublishingHouseEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private int id;
+    @Basic
+    @Column(name = "Title", nullable = false, length = 800)
+    private String title;
+    @Basic
+    @Column(name = "DateOfEstablishment", nullable = true)
+    private Integer dateOfEstablishment;
+    @JsonBackReference
+    @OneToMany(mappedBy = "publishingHouseForBook", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BookEntity> booksForPublishingHouse;
+
     public PublishingHouseEntity() {
     }
 
@@ -24,24 +38,6 @@ public class PublishingHouseEntity {
         this.title = title;
         this.dateOfEstablishment = dateOfEstablishment;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
-    private int id;
-
-    @Basic
-    @Column(name = "Title", nullable = false, length = 800)
-    private String title;
-
-    @Basic
-    @Column(name = "DateOfEstablishment", nullable = true)
-    private Integer dateOfEstablishment;
-
-    @JsonBackReference
-    @OneToMany(mappedBy = "publishingHouseForBook", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BookEntity> booksForPublishingHouse;
-
 
     public int getId() {
         return id;

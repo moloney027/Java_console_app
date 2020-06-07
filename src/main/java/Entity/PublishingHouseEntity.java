@@ -76,10 +76,7 @@ public class PublishingHouseEntity {
 
 
     public String toJSON() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        mapper.setDateFormat(df);
-        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        return JsonSerializer.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
     }
 
 

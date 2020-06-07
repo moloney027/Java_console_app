@@ -16,15 +16,15 @@
         <property name="format_sql">true</property>
         <!--        <property name="use_sql_comments">true</property>-->
 
-        <mapping class="Entity.AdaptationsEntity"/>
-        <mapping class="Entity.AuthorEntity"/>
-        <mapping class="Entity.BookCopyEntity"/>
-        <mapping class="Entity.BookEntity"/>
-        <mapping class="Entity.BookIssuanceEntity"/>
-        <mapping class="Entity.GenreEntity"/>
-        <mapping class="Entity.PublishingHouseEntity"/>
-        <mapping class="Entity.ReadersEntity"/>
-        <mapping class="Entity.FineEntity"/>
-        <mapping class="Entity.LogInAndSignUpEntity"/>
+<!--        <mapping class="Entity.AdaptationsEntity"/>-->
+<!--        <mapping class="Entity.AuthorEntity"/>-->
+<!--        <mapping class="Entity.BookCopyEntity"/>-->
+<!--        <mapping class="Entity.BookEntity"/>-->
+<!--        <mapping class="Entity.BookIssuanceEntity"/>-->
+<!--        <mapping class="Entity.GenreEntity"/>-->
+<!--        <mapping class="Entity.PublishingHouseEntity"/>-->
+<!--        <mapping class="Entity.ReadersEntity"/>-->
+<!--        <mapping class="Entity.FineEntity"/>-->
+<!--        <mapping class="Entity.LogInAndSignUpEntity"/>-->
     </session-factory>
 </hibernate-configuration>
